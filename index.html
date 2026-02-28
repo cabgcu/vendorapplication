@@ -62,12 +62,26 @@
         .section-header { font-size: 1.1rem; font-weight: 800; color: #BF5AF2; margin-bottom: 12px; margin-top: 10px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        .form-group { margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
-        /* Reduced bottom margin to tighten gap between label and box */
-        .form-label { display: block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; width: 100%; }
-        .form-hint { display: block; margin-top: 2px; color: rgba(255,255,255,0.4); font-size: 0.75rem; line-height: 1.3; text-transform: none; font-weight: 400; letter-spacing: 0; }
+        /* Updated Form Group for alignment */
+        .form-group { 
+            margin-bottom: 20px; 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; /* Ensures equal height in grid columns */
+        }
+        
+        /* Adjusted bottom margin to add a little more space between label and box */
+        .form-label { display: block; margin-bottom: 12px; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; width: 100%; }
+        .form-hint { display: block; margin-top: 4px; margin-bottom: 12px; color: rgba(255,255,255,0.4); font-size: 0.75rem; line-height: 1.3; text-transform: none; font-weight: 400; letter-spacing: 0; }
 
         .required-mark { color: #FF3B30; margin-left: 4px; font-weight: bold; }
+
+        /* ALIGNMENT MAGIC: Pushes controls to the bottom of their grid cell */
+        .form-group > .control-item,
+        .form-group > .custom-checkbox {
+            margin-top: auto;
+        }
 
         input.control-item, select.control-item, textarea.control-item { 
             width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); 
@@ -122,12 +136,20 @@
         
         .autofill-indicator { font-size: 0.8rem; color: #34C759; margin-top: 8px; display: none; font-weight: bold; background: rgba(52, 199, 89, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block; }
 
-        /* Dynamic Grid Layout - Tightened gaps */
-        .dynamic-form-grid { display: grid; grid-template-columns: 1fr; gap: 4px 20px; }
+        /* Dynamic Grid Layout - Updated with Grid Alignment */
+        .dynamic-form-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 16px; 
+        }
         @media (min-width: 600px) {
-            .dynamic-form-grid { grid-template-columns: 1fr 1fr; }
+            .dynamic-form-grid { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 24px 20px; 
+            }
             .full-width { grid-column: 1 / -1; }
             .half-width { grid-column: span 1; }
+            .dynamic-form-grid .form-group { margin-bottom: 0; } /* Grid handles spacing */
         }
 
         /* Market Selection */
