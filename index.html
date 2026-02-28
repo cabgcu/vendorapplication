@@ -59,23 +59,23 @@
         .survey-card { width: 100%; max-width: var(--max-width-content); margin: 0 auto 40px; padding: 24px; border-radius: var(--radius-card); }
         @media (min-width: 768px) { .survey-card { padding: 40px; } }
 
-        .section-header { font-size: 1.2rem; font-weight: 800; color: #BF5AF2; margin-bottom: 20px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
+        .section-header { font-size: 1.1rem; font-weight: 800; color: #BF5AF2; margin-bottom: 12px; margin-top: 10px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        .form-group { margin-bottom: 28px; width: 100%; display: flex; flex-direction: column; height: 100%; align-items: flex-start; }
-        .form-label { display: block; margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; width: 100%; }
-        .form-hint { display: block; margin-top: 6px; color: rgba(255,255,255,0.5); font-size: 0.8rem; line-height: 1.4; text-transform: none; font-weight: 400; letter-spacing: 0; }
+        .form-group { margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+        /* Reduced bottom margin to tighten gap between label and box */
+        .form-label { display: block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; width: 100%; }
+        .form-hint { display: block; margin-top: 2px; color: rgba(255,255,255,0.4); font-size: 0.75rem; line-height: 1.3; text-transform: none; font-weight: 400; letter-spacing: 0; }
 
         .required-mark { color: #FF3B30; margin-left: 4px; font-weight: bold; }
 
         input.control-item, select.control-item, textarea.control-item { 
             width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); 
-            color: #fff; padding: 16px 20px; border-radius: var(--radius-btn); font-family: inherit; font-size: 1rem; 
-            outline: none; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            margin-top: auto;
+            color: #fff; padding: 14px 18px; border-radius: var(--radius-btn); font-family: inherit; font-size: 1rem; 
+            outline: none; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         
-        input[type="file"].control-item { padding: 12px 20px; cursor: pointer; }
+        input[type="file"].control-item { padding: 12px 18px; cursor: pointer; }
 
         input[type="file"]::file-selector-button {
             border: none; background: rgba(255,255,255,0.1); padding: 8px 16px;
@@ -86,28 +86,26 @@
 
         .control-item:focus { 
             border-color: #0A84FF; background: rgba(255,255,255,0.12); 
-            box-shadow: 0 0 15px rgba(10, 132, 255, 0.4), 0 0 2px rgba(191, 90, 242, 0.4);
-            transform: scale(1.01);
+            box-shadow: 0 0 15px rgba(10, 132, 255, 0.4);
+            transform: translateY(-1px);
         }
 
-        select.control-item { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 24px center; background-size: 16px; padding-right: 52px; }
-        textarea.control-item { min-height: 120px; resize: vertical; }
+        select.control-item { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 20px center; background-size: 16px; padding-right: 52px; }
+        textarea.control-item { min-height: 100px; resize: vertical; }
         
-        .custom-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 0; font-size: 0.95rem; line-height: 1.5; color: #fff; background: rgba(255,255,255,0.03); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s; width: 100%; margin-top: auto; }
+        .custom-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 8px; font-size: 0.95rem; line-height: 1.5; color: #fff; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s; width: 100%; }
         .custom-checkbox:hover { background: rgba(255,255,255,0.06); }
         .custom-checkbox input { width: 22px; height: 22px; accent-color: #0A84FF; margin-top: 2px; flex-shrink: 0; cursor: pointer; }
 
-        .conditional-section { display: none; background: rgba(10, 132, 255, 0.05); border-left: 4px solid #0A84FF; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 28px; animation: fadeUp 0.3s ease; }
+        .conditional-section { display: none; background: rgba(10, 132, 255, 0.05); border-left: 4px solid #0A84FF; padding: 18px; border-radius: 0 12px 12px 0; margin-bottom: 20px; animation: fadeUp 0.3s ease; }
 
-        .btn { padding: 18px 32px; border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; width: 100%; }
+        .btn { padding: 16px 30px; border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; width: 100%; }
         @media (min-width: 768px) { .btn { width: auto; min-width: 250px; } }
 
         .btn-primary { background: var(--gradient-accent); color: white; box-shadow: 0 10px 20px rgba(10, 132, 255, 0.2); }
         .btn-primary:active { transform: scale(0.96); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
         
         .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; min-width: auto; }
-        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
         .loader { display: none; width: 18px; height: 18px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; margin-left: 10px; }
         
@@ -120,39 +118,34 @@
         
         .center-btn-wrapper { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
         .success-icon { width: 80px; height: 80px; background: var(--gradient-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px; color: white; box-shadow: 0 10px 20px rgba(52, 199, 89, 0.3); }
-        .survey-header-center { text-align: center; margin-bottom: 40px; }
+        .survey-header-center { text-align: center; margin-bottom: 25px; }
         
         .autofill-indicator { font-size: 0.8rem; color: #34C759; margin-top: 8px; display: none; font-weight: bold; background: rgba(52, 199, 89, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block; }
 
-        /* Dynamic Grid Layout */
-        .dynamic-form-grid { display: grid; grid-template-columns: 1fr; gap: 28px 20px; }
+        /* Dynamic Grid Layout - Tightened gaps */
+        .dynamic-form-grid { display: grid; grid-template-columns: 1fr; gap: 4px 20px; }
         @media (min-width: 600px) {
             .dynamic-form-grid { grid-template-columns: 1fr 1fr; }
             .full-width { grid-column: 1 / -1; }
             .half-width { grid-column: span 1; }
         }
 
-        /* Market Selection Checkbox List */
-        #marketSelectionContainer { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-        .market-option { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 16px; border-radius: 12px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s; }
-        .market-option:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        /* Market Selection */
+        #marketSelectionContainer { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .market-option { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; }
         .market-option.selected { border-color: #0A84FF; background: rgba(10, 132, 255, 0.1); }
-        .market-option input { width: 20px; height: 20px; accent-color: #0A84FF; }
-        .market-info-text { flex: 1; }
-        .market-name { font-weight: 800; display: block; font-size: 1rem; color: #fff; }
-        .market-meta { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 2px; }
-
-        /* Admin Builder Question Block */
-        .builder-q-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 16px; margin-bottom: 15px; position: relative;}
-        .builder-q-remove { position: absolute; top: 15px; right: 15px; color: #FF3B30; cursor: pointer; font-weight: bold; background: none; border: none; font-size: 1.2rem; }
-        .builder-move-btn { background: rgba(255,255,255,0.1); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.9rem;}
-        .builder-move-btn:hover { background: rgba(255,255,255,0.2); }
+        .market-option input { width: 18px; height: 18px; accent-color: #0A84FF; }
+        .market-name { font-weight: 800; color: #fff; font-size: 0.95rem; display: block; }
+        .market-meta { font-size: 0.75rem; color: var(--text-muted); display: block; }
 
         /* Admin Gate Modal */
         .modal { position: fixed; inset: 0; z-index: 1000; display: none; justify-content: center; align-items: center; padding: 16px; }
         .modal.show { display: flex; }
         .modal-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .modal-content { position: relative; width: 100%; max-width: 400px; background: #111; border-radius: 28px; padding: 32px; border: 1px solid var(--glass-border); text-align: center; }
+
+        .builder-q-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 16px; margin-bottom: 12px; position: relative;}
+        .builder-q-remove { position: absolute; top: 12px; right: 12px; color: #FF3B30; cursor: pointer; font-weight: bold; background: none; border: none; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -170,25 +163,21 @@
         <div class="frosted survey-card">
             
             <div class="survey-header-center">
-                <h3 id="appTitle" style="margin-top:0; font-size: 2rem; letter-spacing: -0.02em;">Student Market Vendor Application</h3>
-                <div id="appDesc" style="color: var(--text-muted); margin: 15px auto; line-height: 1.6; max-width: 95%;">
-                    Loading application details...
+                <h3 id="appTitle" style="margin-top:0; font-size: 1.8rem; letter-spacing: -0.02em;">Student Market Vendor Application</h3>
+                <div id="appDesc" style="color: var(--text-muted); margin: 12px auto; line-height: 1.5; font-size: 0.9rem; max-width: 95%;">
+                    Loading available markets...
                 </div>
-                <span style="font-size: 0.75rem; color: #FF3B30; font-weight: 700; text-transform: uppercase;">* Indicates required question</span>
+                <span style="font-size: 0.7rem; color: #FF3B30; font-weight: 700; text-transform: uppercase;">* Indicates required question</span>
             </div>
 
-            <!-- Multi-Event Selection -->
-            <div class="form-group full-width">
-                <label class="form-label">Which Markets are you applying for?<span class="required-mark">*</span></label>
-                <div id="marketSelectionContainer">
-                    <div style="color:var(--text-muted); font-size:0.9rem;">Checking for available markets...</div>
-                </div>
+            <div class="form-group full-width" style="margin-bottom:15px;">
+                <label class="form-label">Which Market are you applying for?<span class="required-mark">*</span></label>
+                <div id="marketSelectionContainer"></div>
             </div>
 
-            <!-- DYNAMIC FORM INJECTED HERE -->
             <div id="dynamicFormContainer" class="dynamic-form-grid"></div>
 
-            <div class="center-btn-wrapper" style="margin-top: 50px;">
+            <div class="center-btn-wrapper" style="margin-top: 30px;">
                 <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">
                     <span id="submitBtnText">Submit Application</span>
                     <div class="loader" id="submitLoader"></div>
@@ -203,7 +192,7 @@
             <div class="success-icon">✓</div>
             <h2 style="margin-top:0">Application Received!</h2>
             <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 32px;">
-                Thank you for applying! Your application is now under review. Keep an eye on your preferred email for updates regarding your status.
+                Thank you for applying! Your application is now under review. Keep an eye on your email for updates.
             </p>
             <div class="center-btn-wrapper">
                 <button class="btn btn-primary" onclick="window.location.reload()">Return to Start</button>
@@ -214,45 +203,33 @@
     <!-- ADMIN BUILDER VIEW -->
     <div id="adminView" class="view">
         <div class="frosted survey-card" style="max-width: 900px;">
-            <h2 style="margin-top:0; font-size: 2rem;">Form Builder Admin</h2>
-            <p style="color:var(--text-muted); margin-bottom: 30px;">Customize your application form structure.</p>
-
+            <h2 style="margin-top:0; font-size: 1.8rem;">Form Builder Admin</h2>
             <div class="section-header">Global Branding</div>
-            <div class="form-group">
-                <label class="form-label">Header Image URL</label>
-                <input type="text" id="adminHeaderUrl" class="control-item">
-            </div>
-            
-            <div class="section-header" style="margin-top:40px; margin-bottom: 10px;">Form Questions</div>
+            <div class="form-group"><label class="form-label">Header Image URL</label><input type="text" id="adminHeaderUrl" class="control-item"></div>
+            <div class="section-header" style="margin-top:30px;">Form Questions</div>
             <div id="adminQuestionsList"></div>
-            
             <div style="text-align: center; margin-bottom: 20px;">
-                <button class="btn btn-ghost" style="padding: 12px 24px; font-size: 0.9rem;" onclick="addCustomQuestion('text')">+ Add Question</button>
-                <button class="btn btn-ghost" style="padding: 12px 24px; font-size: 0.9rem;" onclick="addCustomQuestion('section_header')">+ Add Section Header</button>
+                <button class="btn btn-ghost" style="padding: 10px 20px; font-size: 0.85rem;" onclick="addCustomQuestion('text')">+ Add Question</button>
+                <button class="btn btn-ghost" style="padding: 10px 20px; font-size: 0.85rem;" onclick="addCustomQuestion('section_header')">+ Add Header</button>
             </div>
-
-            <div class="center-btn-wrapper" style="margin-top: 50px; display:flex; gap: 15px;">
-                <button class="btn btn-ghost" onclick="switchView('application')">Exit Without Saving</button>
-                <button class="btn btn-primary" id="adminSaveBtn" onclick="saveAdminConfig()">
-                    <span>Save Form Settings</span>
-                    <div class="loader" id="adminSaveLoader"></div>
-                </button>
+            <div class="center-btn-wrapper" style="margin-top: 40px; display:flex; gap: 15px;">
+                <button class="btn btn-ghost" onclick="switchView('application')">Exit</button>
+                <button class="btn btn-primary" id="adminSaveBtn" onclick="saveAdminConfig()">Save Settings</button>
             </div>
         </div>
     </div>
 
     <footer>
         © 2026 Canyon Activities Board <br>
-        <button class="btn btn-ghost" style="font-size:0.7rem; opacity:0.4; padding: 6px 12px; margin-top:10px; border:none; min-width:auto;" onclick="showAdminGate()">Admin Access</button>
+        <button class="btn btn-ghost" style="font-size:0.65rem; opacity:0.3; padding: 4px 8px; border:none; min-width:auto;" onclick="showAdminGate()">Admin Access</button>
     </footer>
 </div>
 
 <div id="gateModal" class="modal">
     <div class="modal-bg" onclick="hideAdminGate()"></div>
     <div class="modal-content">
-        <h3 style="margin-top:0">Authorization Required</h3>
-        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Enter board password to configure form.</p>
-        <input type="password" id="adminPass" class="control-item" placeholder="Password" style="margin-bottom:20px; text-align: center;" autocomplete="off" onkeyup="if(event.key==='Enter') verifyAdmin()"/>
+        <h3>Authorization</h3>
+        <input type="password" id="adminPass" class="control-item" placeholder="Password" style="margin-bottom:20px; text-align: center;" onkeyup="if(event.key==='Enter') verifyAdmin()"/>
         <button class="btn btn-primary" onclick="verifyAdmin()" style="width: 100%;">Authorize</button>
     </div>
 </div>
@@ -260,38 +237,35 @@
 <div id="toast">Update Successful</div>
 
 <script>
-    // SUPABASE CONFIGURATION
     const SUPABASE_URL = 'https://xdfbjusrwbxoxbcocxkp.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_ylaFmuuSPD2UcKdF1yKw4g_UPXiRRef';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Global Data Store
     let allEventsData = [];
 
-    // DEFAULT QUESTION TEMPLATE
+    // EXACT DEFAULT QUESTIONS ARRAY (V8 - Splitting Name for DB constraints)
     const defaultQuestions = [
-        { id: 'section_personal', type: 'section_header', label: '1. Personal Information', width: 'full', isCore: true },
+        { id: 'section_personal', type: 'section_header', label: 'Personal Information', width: 'full', isCore: true },
         { id: 'student_id', type: 'number', label: 'Student ID Number', hint: 'Type your ID and tap away to auto-fill your info if you\'ve applied before!', required: true, width: 'full', isCore: true },
-        { id: 'first_name', type: 'text', label: 'First Name', hint: '', required: true, width: 'half', isCore: true },
-        { id: 'last_name', type: 'text', label: 'Last Name', hint: '', required: true, width: 'half', isCore: true },
-        { id: 'preferred_email', type: 'email', label: 'Preferred Email', hint: 'Vendor confirmation emails will be sent to your preferred email! Please double check that your email is correct and not misspelled in any way!', required: true, width: 'full', isCore: true },
+        { id: 'full_name_combined', type: 'text', label: 'First and Last Name', hint: '', required: true, width: 'full', isCore: false },
+        { id: 'preferred_email', type: 'email', label: 'Preferred Email', hint: 'Vendor confirmation emails will be sent to your preferred email! Please double check that your email is correct and not misspelled in any way! If it is, you won\'t recieve a confirmation email!', required: true, width: 'full', isCore: true },
         { id: 'gcu_email', type: 'email', label: 'GCU Email', hint: '', required: true, width: 'full', isCore: true },
         { id: 'phone', type: 'tel', label: 'Phone Number', hint: '', required: true, width: 'half', isCore: true },
         { id: 'communication_method', type: 'dropdown', label: 'Preferred Communication Method', hint: '', options: 'Email, Text', required: true, width: 'half', isCore: true },
         { id: 'year', type: 'dropdown', label: 'What year are you at GCU?', hint: '', options: 'Freshman, Sophomore, Junior, Senior', required: true, width: 'half', isCore: true },
-        { id: 'past_vendor', type: 'dropdown', label: 'Have you ever worked with CAB at a student market before?', hint: '', options: 'Yes, No', required: true, width: 'half', isCore: true },
-        { id: 'availability', type: 'dropdown', label: 'Will you be available for the duration of the market?', hint: '', options: 'Yes, No', required: true, width: 'full', isCore: true },
+        { id: 'availability', type: 'dropdown', label: 'Will you be available for the duration of the market?', hint: '', options: 'Yes, No', required: true, width: 'half', isCore: true },
         
-        { id: 'section_vendor', type: 'section_header', label: '2. Vendor Details', width: 'full', isCore: true },
+        { id: 'section_vendor', type: 'section_header', label: 'Vendor Details', width: 'full', isCore: true },
+        { id: 'food_license', type: 'dropdown', label: 'If you are selling food, do you have your food handlers\' license? This is required to sell food or drinks at our market. If you do not have one, please do not submit this application until you do!', hint: '', options: 'Yes, No, Not applicable', required: true, width: 'full', isCore: true },
+        { id: 'past_vendor', type: 'dropdown', label: 'Have you ever worked with CAB at a student market before?', hint: '', options: 'Yes, No', required: true, width: 'full', isCore: true },
         { id: 'description', type: 'textarea', label: 'Vendor/Project Description', hint: '', required: true, width: 'full', isCore: true },
-        { id: 'link', type: 'text', label: 'Social Media Handle or Website (Showcasing Your Products)', hint: 'If you don\'t have one, include a link to a PUBLIC Google Doc with pictures.', required: true, width: 'full', isCore: true },
-        { id: 'food_license', type: 'dropdown', label: 'If you are selling food, do you have your food handlers\' license?', hint: 'This is required to sell food or drinks at our market.', options: 'Yes, No, Not applicable', required: true, width: 'full', isCore: true },
+        { id: 'link', type: 'text', label: 'Social Media Handle or Website (Showcasing Your Products)', hint: 'This is not your personal social media account, but rather one that displays the business you\'re running and the items you intend to sell. Note: if your business doesn\'t have a social media account or website, you may include the link to a Google Doc with pictures. Important: make sure the document is public and visible!', required: true, width: 'full', isCore: true },
         
-        { id: 'section_logistics', type: 'section_header', label: '3. Logistics & Agreements', width: 'full', isCore: true },
+        { id: 'section_logistics', type: 'section_header', label: 'ELECTRICITY VENDORS', width: 'full', isCore: true },
         { id: 'needs_power', type: 'dropdown', label: 'Do you need to be by an outlet or have access to a power source to run your table?', hint: '', options: 'Yes, No', required: true, width: 'full', isCore: true },
         
         { id: 'section_agreements', type: 'section_header', label: 'Check the boxes to acknowledge', width: 'full', isCore: false },
-        { id: 'agreements_checked', type: 'checkbox_single', label: 'Liability Acknowledgment', hint: 'I acknowledge that CAB and Grand Canyon University are not responsible and cannot be held liable for the product or quality of the product being sold. As the seller I am liable and bound by any verbal statements/agreement pertaining to the item being sold and am responsible for any causes or results from using its products, services, or any information provided.', required: true, width: 'full', isCore: true },
+        { id: 'agree_liability', type: 'checkbox_single', label: 'Liability Acknowledgment', hint: 'I acknowledge that CAB and Grand Canyon University are not responsible and cannot be held liable for the product or quality of the product being sold. As the seller I am liable and bound by any verbal statements/agreement pertaining to the item being sold and am responsible for any causes or results from using its products, services, or any information provided.', required: true, width: 'full', isCore: false },
         { id: 'agree_taxes', type: 'checkbox_single', label: 'Taxes Acknowledgment', hint: 'I acknowledge that as the seller I am fully responsible for claiming income received from this market on applicable taxes. CAB and Grand Canyon University serve as a host to the business owner by offering a free platform for the entrepreneur and thereby do not collect any fees or income from vendors.', required: true, width: 'full', isCore: false },
         { id: 'agree_safety', type: 'checkbox_single', label: 'Safety Acknowledgment', hint: 'I acknowledge that if I as a vendor cannot maintain a safe, friendly and respectful environment, CAB will be obligated to shut down the vendors booth for safety measures.', required: true, width: 'full', isCore: false },
         { id: 'agree_terms', type: 'checkbox_single', label: 'Terms Acknowledgment', hint: 'By applying for student market you acknowledge our terms and hereby consent to our disclaimer and agree to its terms.', required: true, width: 'full', isCore: false },
@@ -300,48 +274,33 @@
         { id: 'additional_comments', type: 'textarea', label: 'Additional Comments, Requests, or Anything You May Need From CAB to Run Your Table Smoothly', hint: 'For any additional questions or concerns, please email lopetownmarket@gmail.com. Thank you for your time!', required: false, width: 'full', isCore: true }
     ];
 
-    let formConfig = {
-        headerUrl: "https://i.imgur.com/HJTTEzA.png",
-        questions: [] 
-    };
+    let formConfig = { headerUrl: "https://i.imgur.com/HJTTEzA.png", questions: [] };
 
-    // SYSTEM INIT
     window.onload = async () => {
         await loadEvents();
         await loadConfig();
     };
 
-    // --- MARKET INFO LOGIC ---
-
     async function loadEvents() {
         try {
             const { data, error } = await _supabase.from('events').select('*').order('created_at', { ascending: false });
             const container = document.getElementById('marketSelectionContainer');
-            const submitBtn = document.getElementById('submitBtn');
-
             if (error || !data || data.length === 0) {
-                container.innerHTML = '<div style="color:#FF3B30">No markets currently open.</div>';
-                if (submitBtn) submitBtn.disabled = true;
+                container.innerHTML = '<div style="color:#FF3B30">No markets open.</div>';
                 return;
             }
-            
             allEventsData = data;
             const now = new Date();
             let openMarkets = data.filter(e => {
-                let isOpen = true;
-                if (e.app_open && new Date(e.app_open) > now) isOpen = false;
-                if (e.app_close && new Date(e.app_close) < now) isOpen = false;
-                return isOpen;
+                return (!e.app_open || new Date(e.app_open) <= now) && (!e.app_close || new Date(e.app_close) >= now);
             });
-
             if (openMarkets.length === 0) {
-                container.innerHTML = '<div style="color:#FF3B30">No markets are currently open for applications.</div>';
-                if (submitBtn) submitBtn.disabled = true;
+                container.innerHTML = '<div style="color:#FF3B30">No active application windows.</div>';
+                document.getElementById('submitBtn').disabled = true;
                 document.getElementById('appDesc').innerHTML = "There are currently no active application windows. Please check back later!";
             } else {
-                if (submitBtn) submitBtn.disabled = false;
+                document.getElementById('submitBtn').disabled = false;
                 document.getElementById('appDesc').innerHTML = "Select one or more markets below to apply. Details will update based on your selection.";
-                
                 container.innerHTML = openMarkets.map(e => `
                     <label class="market-option" id="label_market_${e.id}">
                         <input type="checkbox" name="marketChoice" value="${e.id}" onchange="updateMarketSelectionUI()">
@@ -349,209 +308,182 @@
                             <span class="market-name">${e.name}</span>
                             <span class="market-meta">${e.location} | ${new Date(e.market_date + 'T12:00:00').toLocaleDateString()}</span>
                         </div>
-                    </label>
-                `).join('');
+                    </label>`).join('');
             }
-            
-        } catch (err) { console.error("Failed to load events", err); }
+        } catch (e) { console.error(e); }
     }
 
     function updateMarketSelectionUI() {
         const checkboxes = document.querySelectorAll('input[name="marketChoice"]:checked');
-        const appTitle = document.getElementById('appTitle');
-        const appDesc = document.getElementById('appDesc');
         const availLabel = document.querySelector('[id="lbl-form_availability"]');
-
-        // Style the selected market boxes
         document.querySelectorAll('input[name="marketChoice"]').forEach(cb => {
             const label = document.getElementById(`label_market_${cb.value}`);
-            if (cb.checked) label.classList.add('selected');
-            else label.classList.remove('selected');
+            cb.checked ? label.classList.add('selected') : label.classList.remove('selected');
         });
-
         if (checkboxes.length === 0) {
-            appTitle.innerText = "Student Market Vendor Application";
-            appDesc.innerHTML = "Please select one or more markets above to view application details and deadlines.";
-            if (availLabel) availLabel.innerText = "Will you be available for the duration of the market?";
+            document.getElementById('appDesc').innerHTML = "Select markets to view details.";
+            if (availLabel) availLabel.innerHTML = 'Will you be available for the duration of the market?';
             return;
         }
-
-        // Gather all selected event info
-        let selectedEvents = Array.from(checkboxes).map(cb => allEventsData.find(ev => ev.id === cb.value));
-
-        const getDaySuffix = (day) => {
-            if (day > 3 && day < 21) return 'th';
-            switch (day % 10) {
-                case 1:  return "st";
-                case 2:  return "nd";
-                case 3:  return "rd";
-                default: return "th";
-            }
-        };
-
-        const formatDateFull = (dStr) => {
-            if(!dStr) return 'TBA';
-            const d = new Date(dStr + 'T12:00:00');
-            const weekday = d.toLocaleDateString('en-US', { weekday: 'long' });
-            const month = d.toLocaleDateString('en-US', { month: 'long' });
-            const day = d.getDate();
-            const year = d.getFullYear();
-            return `${weekday}, ${month} ${day}${getDaySuffix(day)} of ${year}`;
-        };
-
-        // Construct multi-event description
-        let descHtml = `Hello! Thank you for your interest in applying to CAB Student Markets. You have selected <strong>${selectedEvents.length} market(s)</strong>.<br><br>`;
+        let selected = Array.from(checkboxes).map(cb => allEventsData.find(ev => ev.id === cb.value));
+        let desc = "";
+        let availStr = "available for the duration of the market?";
         
-        let availPhrases = [];
-
-        selectedEvents.forEach(e => {
-            descHtml += `---<br><strong>${e.name}</strong><br>`;
-            descHtml += `Date: ${formatDateFull(e.market_date)} | Time: ${e.market_time || 'TBA'}<br>`;
-            descHtml += `Location: ${e.location}<br>`;
-            
-            if (e.market_time && e.market_date) {
-                availPhrases.push(`${e.market_time.toUpperCase()} ON ${new Date(e.market_date + 'T12:00:00').toLocaleDateString('en-US', {month: 'long', day: 'numeric'}).toUpperCase()}${getDaySuffix(new Date(e.market_date + 'T12:00:00').getDate()).toUpperCase()}`);
-            }
-        });
-
-        appDesc.innerHTML = descHtml;
-
-        // Update the Availability Question Label dynamically
-        if (availLabel && availPhrases.length > 0) {
-            if (availPhrases.length === 1) {
-                availLabel.innerText = `WILL YOU BE AVAILABLE FROM ${availPhrases[0]}?`;
-            } else {
-                availLabel.innerText = `WILL YOU BE AVAILABLE FOR THE FULL DURATION OF ALL SELECTED MARKETS?`;
-            }
+        if(selected.length === 1) {
+            const e = selected[0];
+            const d = new Date(e.market_date + 'T12:00:00');
+            desc = `Hello! Thank you for your interest in applying to a CAB student Market for the 2025-2026 school year! CAB Applications for the ${e.name}.<br><br><strong>Date of Market:</strong> ${d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})} of ${d.getFullYear()}<br><strong>Time:</strong> ${e.market_time || '6:30-9:00pm'}<br><strong>Location:</strong> ${e.location}<br><br>This application will close on ${new Date(e.app_close).toLocaleString()}`;
+            availStr = `Will you be available from ${e.market_time || '6:30 PM to 9:00 PM'} on ${d.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}?`;
+        } else {
+            desc = `You are applying for <strong>${selected.length} markets</strong>. Please confirm your availability for all dates selected below.`;
+            availStr = `Will you be available for the full duration of ALL selected markets?`;
         }
+        document.getElementById('appDesc').innerHTML = desc;
+        if (availLabel) availLabel.innerText = availStr.toUpperCase();
     }
-
-    // --- CONFIG & RENDER LOGIC ---
 
     async function loadConfig() {
         try {
-            const { data, error } = await _supabase.from('secrets').select('value').eq('name', 'MARKET_FORM_CONFIG_V4').maybeSingle();
-            if (data && data.value) {
-                let parsed = JSON.parse(data.value);
-                formConfig.headerUrl = parsed.headerUrl || formConfig.headerUrl;
-                formConfig.questions = (parsed.questions && parsed.questions.length > 0) ? parsed.questions : JSON.parse(JSON.stringify(defaultQuestions));
+            const { data } = await _supabase.from('secrets').select('value').eq('name', 'MARKET_FORM_CONFIG_V8').maybeSingle();
+            if (data?.value) {
+                let p = JSON.parse(data.value);
+                formConfig.headerUrl = p.headerUrl || formConfig.headerUrl;
+                formConfig.questions = p.questions || JSON.parse(JSON.stringify(defaultQuestions));
             } else {
                 formConfig.questions = JSON.parse(JSON.stringify(defaultQuestions));
             }
             renderPublicForm();
-        } catch (err) { 
-            console.log("Error loading config, using defaults.", err); 
-            formConfig.questions = JSON.parse(JSON.stringify(defaultQuestions));
-            renderPublicForm(); 
-        }
+        } catch (e) { formConfig.questions = JSON.parse(JSON.stringify(defaultQuestions)); renderPublicForm(); }
     }
 
     function renderPublicForm() {
         document.getElementById('appHeaderImg').src = formConfig.headerUrl;
         const container = document.getElementById('dynamicFormContainer');
         container.innerHTML = '';
-
         formConfig.questions.forEach((q) => {
             if (q.type === 'section_header') {
-                container.innerHTML += `<div class="full-width"><div class="section-header" style="margin-top: 20px;">${q.label}</div></div>`;
+                container.innerHTML += `<div class="full-width"><div class="section-header">${q.label}</div></div>`;
                 return;
             }
-
             let inputHtml = '';
-            let onBlurEvt = q.id === 'student_id' ? `onblur="checkExistingVendor()"` : '';
-            let onChangeEvt = q.id === 'food_license' ? `onchange="toggleFoodLicense()"` : (q.id === 'needs_power' ? `onchange="togglePowerAgreement()"` : '');
-
-            if (q.type === 'textarea') {
-                inputHtml = `<textarea id="form_${q.id}" class="control-item" placeholder="Type here..."></textarea>`;
-            } else if (q.type === 'dropdown') {
+            let common = `id="form_${q.id}" class="control-item"`;
+            if (q.type === 'textarea') inputHtml = `<textarea ${common}></textarea>`;
+            else if (q.type === 'dropdown') {
                 const opts = (q.options || '').split(',').map(o => `<option value="${o.trim()}">${o.trim()}</option>`).join('');
-                inputHtml = `<select id="form_${q.id}" class="control-item" ${onChangeEvt}><option value="">Select...</option>${opts}</select>`;
-            } else if (q.type === 'checkbox_single') {
-                inputHtml = `<label class="custom-checkbox"><input type="checkbox" id="form_${q.id}"><span style="font-size: 0.9rem;">${q.hint || q.label}</span></label>`;
-            } else {
-                inputHtml = `<input type="${q.type}" id="form_${q.id}" class="control-item" placeholder="Type here..." ${onBlurEvt} autocomplete="off" />`;
+                let trigger = q.id==='food_license' ? 'onchange="toggleFoodLicense()"' : (q.id==='needs_power' ? 'onchange="togglePowerAgreement()"' : '');
+                inputHtml = `<select ${common} ${trigger}><option value="">Select...</option>${opts}</select>`;
+            } else if (q.type === 'checkbox_single') inputHtml = `<label class="custom-checkbox"><input type="checkbox" id="form_${q.id}"><span>${q.hint || q.label}</span></label>`;
+            else {
+                let blur = q.id === 'student_id' ? 'onblur="checkExistingVendor()"' : '';
+                inputHtml = `<input type="${q.type}" ${common} ${blur} autocomplete="off" />`;
             }
-            
-            const reqHtml = q.required ? `<span class="required-mark">*</span>` : '';
-            const hintHtml = (q.hint && q.type !== 'checkbox_single') ? `<span class="form-hint">${q.hint}</span>` : '';
-            const labelTextHtml = `<label class="form-label" id="lbl-form_${q.id}">${q.label}${reqHtml}${hintHtml}</label>`;
+            let lbl = `<label class="form-label" id="lbl-form_${q.id}">${q.label}${q.required?'<span class="required-mark">*</span>':''}${q.hint && q.type!=='checkbox_single'?'<span class="form-hint">'+q.hint+'</span>':''}</label>`;
+            let extra = q.id === 'student_id' ? `<div id="autofillNotice" class="autofill-indicator" style="display:none;">✨ Profile auto-filled!</div>` : '';
+            container.innerHTML += `<div class="form-group ${q.width === 'half' ? 'half-width' : 'full-width'}">${lbl}${inputHtml}${extra}</div>`;
 
-            let extraUi = q.id === 'student_id' ? `<div id="autofillNotice" class="autofill-indicator" style="display:none;">✨ Profile auto-filled!</div>` : '';
-
-            container.innerHTML += `<div class="form-group ${q.width === 'half' ? 'half-width' : 'full-width'}">${labelTextHtml}${inputHtml}${extraUi}</div>`;
-
-            if (q.id === 'food_license') {
-                container.innerHTML += `<div id="foodLicenseUploadSection" class="conditional-section full-width"><label class="form-label">Upload AZ Food Handlers License<span class="required-mark">*</span><span class="form-hint">Image formats only. Automatically compressed.</span></label><input type="hidden" id="formFoodLicenseLinkHidden"><div id="existingLicenseLink" style="margin-bottom: 10px; font-size: 0.9rem;"></div><input type="file" id="formFoodLicenseFile" class="control-item" accept="image/*" /></div>`;
-            }
-            if (q.id === 'needs_power') {
-                container.innerHTML += `<div id="powerAgreementSection" class="conditional-section full-width"><label class="form-label" style="color: #FFD60A;">ELECTRICITY VENDORS:<span class="required-mark">*</span></label><p style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px;">Electricity is first-come, first-served. Portable power is strongly encouraged.</p><label class="custom-checkbox" style="background: rgba(255, 214, 10, 0.1); border-color: rgba(255, 214, 10, 0.2);"><input type="checkbox" id="powerAgreementCheck"><span>I acknowledge that I have read this statement</span></label></div>`;
-            }
+            if (q.id === 'food_license') container.innerHTML += `<div id="foodLicenseUploadSection" class="conditional-section full-width"><label class="form-label">Upload AZ food handlers license!<span class="required-mark">*</span></label><input type="hidden" id="formFoodLicenseLinkHidden"><div id="existingLicenseLink"></div><input type="file" id="formFoodLicenseFile" class="control-item" accept="image/*" /></div>`;
+            if (q.id === 'needs_power') container.innerHTML += `<div id="powerAgreementSection" class="conditional-section full-width"><label class="form-label" style="color:#FFD60A">ELECTRICITY VENDORS:<span class="required-mark">*</span></label><p style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;line-height:1.4;">Due to high demand, electricity is available on a first-come, first-served basis. We do not provide extension cords. Portable power is STRONGLY encouraged.</p><label class="custom-checkbox"><input type="checkbox" id="powerAgreementCheck"><span>I acknowledge that I have read this statement</span></label></div>`;
         });
     }
 
-    // --- ADMIN PANEL LOGIC ---
+    // --- ADMIN ---
     function showAdminGate() { document.getElementById('gateModal').classList.add('show'); }
-    function hideAdminGate() { document.getElementById('gateModal').classList.remove('show'); document.getElementById('adminPass').value = ''; }
-    function verifyAdmin() { if (document.getElementById('adminPass').value === 'Vendor49!') { hideAdminGate(); renderAdminPanel(); switchView('admin'); } else { showToast('Invalid Password', true); } }
-    function renderAdminPanel() { document.getElementById('adminHeaderUrl').value = formConfig.headerUrl || ""; renderAdminQuestionsList(); }
+    function hideAdminGate() { document.getElementById('gateModal').classList.remove('show'); }
+    function verifyAdmin() { if (document.getElementById('adminPass').value === 'Vendor49!') { hideAdminGate(); renderAdminPanel(); switchView('admin'); } else { showToast('Invalid', true); } }
+    function renderAdminPanel() { document.getElementById('adminHeaderUrl').value = formConfig.headerUrl; renderAdminQuestionsList(); }
     function renderAdminQuestionsList() {
         const list = document.getElementById('adminQuestionsList');
-        list.innerHTML = formConfig.questions.map((q, index) => {
-            const isSec = q.type === 'section_header';
-            return `<div class="builder-q-card" style="${isSec ? 'border-left: 4px solid #BF5AF2;' : ''}"><div style="display:flex; justify-content:space-between; margin-bottom: 10px;"><div style="display:flex; gap: 5px;"><button class="builder-move-btn" onclick="moveQ(${index}, -1)" ${index === 0 ? 'disabled' : ''}>↑</button><button class="builder-move-btn" onclick="moveQ(${index}, 1)" ${index === formConfig.questions.length - 1 ? 'disabled' : ''}>↓</button></div><button class="builder-q-remove" style="position:static;" onclick="deleteQ(${index})">&times;</button></div><div class="form-group"><label class="form-hint">Label</label><input type="text" class="control-item" value="${q.label}" onchange="updateQ(${index}, 'label', this.value)"></div>${!isSec ? `<div class="form-group"><label class="form-hint">Hint</label><input type="text" class="control-item" value="${q.hint || ''}" onchange="updateQ(${index}, 'hint', this.value)"></div>` : ''}<div style="display:flex; gap:20px;"><label class="custom-checkbox" style="border:none;background:transparent;padding:0"><input type="checkbox" ${q.required ? 'checked' : ''} onchange="updateQ(${index}, 'required', this.checked)"><span>Required</span></label><label class="custom-checkbox" style="border:none;background:transparent;padding:0"><input type="checkbox" ${q.width === 'half' ? 'checked' : ''} onchange="updateQ(${index}, 'width', this.checked ? 'half' : 'full')"><span>Half-Width</span></label></div></div>`;
-        }).join('');
+        list.innerHTML = formConfig.questions.map((q, i) => `
+            <div class="builder-q-card">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><div style="display:flex;gap:5px"><button onclick="moveQ(${i},-1)">↑</button><button onclick="moveQ(${i},1)">↓</button></div><button onclick="deleteQ(${i})">&times;</button></div>
+                <input type="text" class="control-item" value="${q.label}" onchange="updateQ(${i},'label',this.value)">
+                ${q.type!=='section_header' ? `<div style="display:flex;gap:15px;margin-top:8px;"><label><input type="checkbox" ${q.required?'checked':''} onchange="updateQ(${i},'required',this.checked)"> Required</label><label><input type="checkbox" ${q.width==='half'?'checked':''} onchange="updateQ(${i},'width',this.checked?'half':'full')"> Half-Width</label></div>` : ''}
+            </div>`).join('');
     }
-    function addCustomQuestion(type) { formConfig.questions.push({ id: 'q_' + Date.now(), type: type === 'section_header' ? 'section_header' : 'text', label: 'New item', width: 'full', required: false, isCore: false }); renderAdminQuestionsList(); }
+    function addCustomQuestion(t) { formConfig.questions.push({ id: 'q_'+Date.now(), type: t==='section_header'?'section_header':'text', label: 'New Item', width: 'full', required: false, isCore: false }); renderAdminQuestionsList(); }
     function deleteQ(i) { formConfig.questions.splice(i, 1); renderAdminQuestionsList(); }
-    function moveQ(i, d) { const n = i + d; if(n<0||n>=formConfig.questions.length)return; [formConfig.questions[i], formConfig.questions[n]] = [formConfig.questions[n], formConfig.questions[i]]; renderAdminQuestionsList(); }
-    function updateQ(i, k, v) { formConfig.questions[i][k] = v; }
+    function moveQ(i, d) { let n=i+d; if(n<0||n>=formConfig.questions.length)return; [formConfig.questions[i],formConfig.questions[n]]=[formConfig.questions[n],formConfig.questions[i]]; renderAdminQuestionsList(); }
+    function updateQ(i,k,v) { formConfig.questions[i][k]=v; }
+    async function saveAdminConfig() { try { await _supabase.from('secrets').upsert([{ name: 'MARKET_FORM_CONFIG_V8', value: JSON.stringify(formConfig) }], { onConflict: 'name' }); showToast("Saved"); renderPublicForm(); switchView('application'); } catch(e){ showToast("Error",true); } }
 
-    async function saveAdminConfig() {
-        const btn = document.getElementById('adminSaveBtn');
+    // --- SUBMISSION ---
+    async function submitApplication() {
+        const selectedMarkets = Array.from(document.querySelectorAll('input[name="marketChoice"]:checked')).map(cb => cb.value);
+        if(selectedMarkets.length === 0) return showToast("Select at least one market", true);
+        const btn = document.getElementById('submitBtn');
+        
+        // Base Payload
+        const basePayload = { status: 'Needs Review', email_sent: 'No', first_name: '', last_name: '' };
+        let customs = [];
+        
+        for(let q of formConfig.questions) {
+            if(q.type==='section_header') continue;
+            const el = document.getElementById('form_'+q.id);
+            if(!el) continue;
+            const val = q.type==='checkbox_single' ? (el.checked?'Yes':'No') : el.value.trim();
+            
+            if(q.required) {
+                if(val === '' || (q.type === 'checkbox_single' && val === 'No')) {
+                    return showToast(`Please answer: ${q.label}`, true);
+                }
+            }
+
+            // Handle the combined name logic to satisfy DB NOT NULL constraints
+            if(q.id === 'full_name_combined') {
+                const parts = val.split(' ');
+                basePayload.first_name = parts[0] || val;
+                basePayload.last_name = parts.slice(1).join(' ') || '.'; // Default to dot if no last name provided
+            }
+
+            if(q.isCore) basePayload[q.id] = val; else if(val && val !== 'No') customs.push(`${q.label}: ${val}`);
+        }
+
+        // Upload Logic
+        if (basePayload.food_license==='Yes') {
+             const file = document.getElementById('formFoodLicenseFile').files[0];
+             const existing = document.getElementById('formFoodLicenseLinkHidden').value;
+             if(!file && !existing) return showToast("Upload license photo", true);
+             if(file) {
+                 const comp = await compressImage(file);
+                 const path = `license_${Date.now()}.jpg`;
+                 await _supabase.storage.from('licenses').upload(path, comp);
+                 basePayload.food_license_link = _supabase.storage.from('licenses').getPublicUrl(path).data.publicUrl;
+             }
+        }
+        if (basePayload.needs_power==='Yes' && !document.getElementById('powerAgreementCheck').checked) return showToast("Agree to power terms", true);
+        if (customs.length > 0) basePayload.additional_comments = (basePayload.additional_comments || '') + '\n\n' + customs.join('\n');
+        
         btn.disabled = true;
-        formConfig.headerUrl = document.getElementById('adminHeaderUrl').value;
         try {
-            await _supabase.from('secrets').upsert([{ name: 'MARKET_FORM_CONFIG_V4', value: JSON.stringify(formConfig) }], { onConflict: 'name' });
-            showToast("Settings Saved!");
-            renderPublicForm();
-            switchView('application');
-        } catch (err) { showToast("Save failed", true); }
+            const inserts = selectedMarkets.map(id => ({ ...basePayload, event_id: id }));
+            const { error } = await _supabase.from('vendors').insert(inserts);
+            if(error) throw error;
+            switchView('success'); confetti();
+        } catch(e) { console.error(e); showToast("Submission failed", true); }
         finally { btn.disabled = false; }
     }
 
-    // --- FORM LOGIC ---
-
-    function toggleFoodLicense() {
-        const el = document.getElementById('form_food_license');
-        const section = document.getElementById('foodLicenseUploadSection');
-        if (el && section) section.style.display = (el.value === 'Yes') ? 'block' : 'none';
-    }
-
-    function togglePowerAgreement() {
-        const el = document.getElementById('form_needs_power');
-        const section = document.getElementById('powerAgreementSection');
-        if (el && section) section.style.display = (el.value === 'Yes') ? 'block' : 'none';
-    }
-
+    function toggleFoodLicense() { let s = document.getElementById('foodLicenseUploadSection'); if(s) s.style.display = document.getElementById('form_food_license').value==='Yes'?'block':'none'; }
+    function togglePowerAgreement() { let s = document.getElementById('powerAgreementSection'); if(s) s.style.display = document.getElementById('form_needs_power').value==='Yes'?'block':'none'; }
     async function checkExistingVendor() {
-        const el = document.getElementById('form_student_id');
-        if (!el) return;
-        const studentId = el.value.trim();
-        if (!studentId || studentId.length < 3) return; 
-        try {
-            const { data } = await _supabase.from('vendors').select('*').eq('student_id', studentId).order('created_at', { ascending: false }).limit(1);
-            if (data && data[0]) {
-                const v = data[0];
-                formConfig.questions.forEach(q => {
-                    const input = document.getElementById('form_' + q.id);
-                    if(input && v[q.id]) input.value = v[q.id];
-                });
-                toggleFoodLicense(); togglePowerAgreement();
-                document.getElementById('autofillNotice').style.display = 'inline-block';
-            }
-        } catch (e) {}
+        const id = document.getElementById('form_student_id').value.trim();
+        if(id.length < 4) return;
+        const { data } = await _supabase.from('vendors').select('*').eq('student_id', id).order('created_at', { ascending: false }).limit(1);
+        if(data && data[0]) {
+            const v = data[0];
+            formConfig.questions.forEach(q => { 
+                const el = document.getElementById('form_'+q.id); 
+                if(el) {
+                    if (q.id === 'full_name_combined') el.value = (v.first_name + ' ' + v.last_name).trim();
+                    else if (v[q.id]) el.value = v[q.id];
+                }
+            });
+            toggleFoodLicense(); togglePowerAgreement();
+            document.getElementById('autofillNotice').style.display = 'inline-block';
+        }
     }
-
+    function switchView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v + 'View').classList.add('active'); window.scrollTo(0,0); }
+    function showToast(m, e) { const t = document.getElementById('toast'); t.innerText = m; t.style.background = e ? 'var(--gradient-fire)' : 'var(--gradient-success)'; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 4000); }
     async function compressImage(file) {
         return new Promise(res => {
             const reader = new FileReader(); reader.readAsDataURL(file);
@@ -562,59 +494,12 @@
                     let w = img.width, h = img.height;
                     if(w > 1000) { h = Math.round((h * 1000) / w); w = 1000; }
                     canvas.width = w; canvas.height = h;
-                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                     canvas.toBlob(blob => res(new File([blob], file.name, { type: 'image/jpeg' })), 'image/jpeg', 0.6);
                 };
             };
         });
     }
-
-    async function submitApplication() {
-        const btn = document.getElementById('submitBtn');
-        const selectedMarkets = Array.from(document.querySelectorAll('input[name="marketChoice"]:checked')).map(cb => cb.value);
-        
-        if(selectedMarkets.length === 0) return showToast("Select at least one Market", true);
-
-        // Core data collection
-        const basePayload = { status: 'Needs Review', email_sent: 'No' };
-        let customs = [];
-        for(let q of formConfig.questions) {
-            if(q.type === 'section_header') continue;
-            const el = document.getElementById('form_' + q.id);
-            if(!el) continue;
-            const val = q.type === 'checkbox_single' ? (el.checked ? 'Yes' : 'No') : el.value.trim();
-            if(q.required && (!val || val === 'No')) return showToast(`Answer: ${q.label}`, true);
-            if(q.isCore) basePayload[q.id] = val; else if(val && val !== 'No') customs.push(`${q.label}: ${val}`);
-        }
-
-        if(basePayload.food_license === 'Yes') {
-            const file = document.getElementById('formFoodLicenseFile').files[0];
-            if(!file && !document.getElementById('formFoodLicenseLinkHidden').value) return showToast("Upload license", true);
-            if(file) {
-                const comp = await compressImage(file);
-                const path = `license_${Date.now()}.jpg`;
-                await _supabase.storage.from('licenses').upload(path, comp);
-                basePayload.food_license_link = _supabase.storage.from('licenses').getPublicUrl(path).data.publicUrl;
-            }
-        }
-        if (basePayload.needs_power === 'Yes' && !document.getElementById('powerAgreementCheck').checked) return showToast("Agree to electricity terms", true);
-        if (customs.length > 0) basePayload.additional_comments = (basePayload.additional_comments || '') + '\n\n--- Additional Information ---\n' + customs.join('\n');
-
-        // BATCH SUBMISSION: One row per event
-        btn.disabled = true;
-        try {
-            const inserts = selectedMarkets.map(eventId => ({ ...basePayload, event_id: eventId }));
-            const { error } = await _supabase.from('vendors').insert(inserts);
-            if (error) throw error;
-            switchView('success'); confetti();
-        } catch(e) { 
-            console.error(e);
-            showToast("Error submitting application", true); 
-        } finally { btn.disabled = false; }
-    }
-
-    function switchView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v + 'View').classList.add('active'); window.scrollTo(0,0); }
-    function showToast(m, e) { const t = document.getElementById('toast'); t.innerText = m; t.style.background = e ? 'var(--gradient-fire)' : 'var(--gradient-success)'; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 4000); }
 </script>
 </body>
 </html>
