@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>CAB Student Market Application</title>
     
     <!-- Dependencies -->
@@ -11,22 +11,27 @@
 
     <style>
         :root {
+            /* Theme Colors (Copied exactly from Dashboard) */
             --bg-dark: #000000;
-            --glass-surface: rgba(0, 0, 0, 0.65); 
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-surface: rgba(15, 15, 15, 0.85); 
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
-            --text-muted: #d1d1d6;
+            --text-muted: #a1a1aa;
+            
+            /* Gradient Accents */
             --gradient-accent: linear-gradient(135deg, #0A84FF, #BF5AF2);
             --gradient-fire: linear-gradient(135deg, #FF9500, #FF3B30);
             --gradient-success: linear-gradient(135deg, #34C759, #30B0C7);
+            
+            /* Modern Rounding */
             --radius-card: 28px;
             --radius-btn: 16px;
-            --blur-bg: 2px; 
-            --blur-card: 12px;
+            --blur: 40px;
+            
             --max-width-content: 700px;
         }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         
         body { 
             margin: 0; 
@@ -38,83 +43,112 @@
         }
 
         #bg-container { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; background-color: #000000;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.25) 0%, transparent 50%), 
-                radial-gradient(circle at 90% 80%, rgba(191, 90, 242, 0.25) 0%, transparent 50%); 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; 
+            background-color: #000000;
+            background-image: url('https://lh3.googleusercontent.com/d/1Q7do5GuhlylxCvqmlFOtilGxHSZsx2gp');
+            background-size: cover;
+            background-position: center;
         }
 
-        #bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(var(--blur-bg)); -webkit-backdrop-filter: blur(var(--blur-bg)); }
+        /* Added noise filter from dashboard over the background */
+        #bg-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: rgba(0, 0, 0, 0.15); 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
 
-        .app-container { position: relative; max-width: 1280px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; }
+        .app-container { position: relative; max-width: 1280px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; transition: all 0.4s ease; }
         @media (min-width: 768px) { .app-container { padding: 40px 24px; } }
 
-        .view { display: none; opacity: 0; transform: translateY(10px); transition: 0.3s ease; }
+        /* Welcome Screen Constrained Layout */
+        .app-container.welcome-active {
+            justify-content: center;
+            align-items: center;
+            max-width: 420px;
+            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+        }
+
+        .view { display: none; opacity: 0; transform: translateY(10px); transition: 0.3s ease; width: 100%; }
         .view.active { display: block; opacity: 1; transform: translateY(0); animation: fadeUp 0.4s ease forwards; }
         
-        .hero-banner { width: 100%; max-width: var(--max-width-content); margin: 0 auto 24px; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #111; line-height: 0; }
+        .hero-banner { width: 100%; max-width: var(--max-width-content); margin: 0 auto 24px; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); background: #111; line-height: 0; transition: all 0.3s ease; }
         .hero-banner img { width: 100%; height: auto; display: block; }
         
-        .frosted { background: var(--glass-surface); backdrop-filter: blur(var(--blur-card)); -webkit-backdrop-filter: blur(var(--blur-card)); border: 1px solid var(--glass-border); box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+        /* Exact Frosted Class from Dashboard */
+        .frosted, .glass-card-inner { 
+            background: var(--glass-surface);
+            backdrop-filter: blur(var(--blur)) saturate(150%);
+            -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease; 
+        }
+        
         .survey-card { width: 100%; max-width: var(--max-width-content); margin: 0 auto 40px; padding: 24px; border-radius: var(--radius-card); }
         @media (min-width: 768px) { .survey-card { padding: 40px; } }
+
+        /* Dynamic Welcome Mode Overlay */
+        .survey-card.welcome-mode {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
 
         .section-header { font-size: 1.1rem; font-weight: 800; color: #BF5AF2; margin-bottom: 12px; margin-top: 10px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        .form-group { 
-            margin-bottom: 20px; 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100%;
-        }
+        .form-group { margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; height: 100%; }
         
         .form-label { display: block; margin-bottom: 12px; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; width: 100%; }
         .form-hint { display: block; margin-top: 4px; margin-bottom: 12px; color: rgba(255,255,255,0.4); font-size: 0.75rem; line-height: 1.3; text-transform: none; font-weight: 400; letter-spacing: 0; }
 
         .required-mark { color: #FF3B30; margin-left: 4px; font-weight: bold; }
 
-        .form-group > .control-item,
-        .form-group > .custom-checkbox {
-            margin-top: auto;
-        }
+        .form-group > .control-item, .form-group > .custom-checkbox { margin-top: auto; }
 
+        /* Exact Dashboard Input Styles */
         input.control-item, select.control-item, textarea.control-item { 
-            width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); 
+            width: 100%; 
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
             color: #fff; padding: 14px 18px; border-radius: var(--radius-btn); font-family: inherit; font-size: 1rem; 
             outline: none; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         
         input[type="file"].control-item { padding: 12px 18px; cursor: pointer; }
-
         input[type="file"]::file-selector-button {
-            border: none; background: rgba(255,255,255,0.1); padding: 8px 16px;
+            border: none; background: rgba(255, 255, 255, 0.15); padding: 8px 16px;
             border-radius: 8px; color: #fff; cursor: pointer; margin-right: 15px;
             transition: 0.2s; font-weight: bold;
         }
-        input[type="file"]::file-selector-button:hover { background: rgba(255,255,255,0.2); }
+        input[type="file"]::file-selector-button:hover { background: rgba(255, 255, 255, 0.25); }
 
         .control-item:focus { 
-            border-color: #0A84FF; background: rgba(255,255,255,0.12); 
-            box-shadow: 0 0 15px rgba(10, 132, 255, 0.4);
-            transform: translateY(-1px);
+            border-color: #0A84FF; 
+            background: rgba(255,255,255,0.08); 
+            box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15); 
         }
 
         select.control-item { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 20px center; background-size: 16px; padding-right: 52px; }
         textarea.control-item { min-height: 100px; resize: vertical; }
         
-        .custom-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 8px; font-size: 0.95rem; line-height: 1.5; color: #fff; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s; width: 100%; }
-        .custom-checkbox:hover { background: rgba(255,255,255,0.06); }
+        .custom-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 8px; font-size: 0.95rem; line-height: 1.5; color: #fff; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 12px; transition: 0.2s; width: 100%; }
+        .custom-checkbox:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
         .custom-checkbox input { width: 22px; height: 22px; accent-color: #0A84FF; margin-top: 2px; flex-shrink: 0; cursor: pointer; }
 
-        .conditional-section { display: none; background: rgba(10, 132, 255, 0.05); border-left: 4px solid #0A84FF; padding: 18px; border-radius: 0 12px 12px 0; margin-bottom: 20px; animation: fadeUp 0.3s ease; }
+        .conditional-section { display: none; background: rgba(255, 255, 255, 0.03); border-left: 4px solid #0A84FF; padding: 18px; border-radius: 0 12px 12px 0; margin-bottom: 20px; animation: fadeUp 0.3s ease; }
 
-        .btn { padding: 16px 30px; border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; width: 100%; }
+        .btn { padding: 16px 30px; border-radius: var(--radius-btn); font-weight: 700; cursor: pointer; border: none; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; width: 100%; }
         @media (min-width: 768px) { .btn { width: auto; min-width: 250px; } }
 
-        .btn-primary { background: var(--gradient-accent); color: white; box-shadow: 0 10px 20px rgba(10, 132, 255, 0.2); }
-        .btn-primary:active { transform: scale(0.96); }
+        /* Exact Dashboard Button Styles */
+        .btn-primary { background: var(--gradient-accent); color: white; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.2); }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(10, 132, 255, 0.4); }
+        .btn-primary:active { transform: translateY(0); }
         
         .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; min-width: auto; }
 
@@ -123,37 +157,32 @@
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; padding: 16px 24px; border-radius: 100px; background: var(--gradient-success); font-weight: 700; z-index: 2000; display: none; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; padding: 16px 24px; border-radius: 100px; background: var(--gradient-success); font-weight: 700; z-index: 2000; display: none; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #fff; }
         
         footer { margin-top:auto; padding:60px 0 40px; text-align:center; color: rgba(255, 255, 255, 0.4); font-size: 0.75rem; letter-spacing: 0.05em; line-height: 1.6; }
-        
+        .welcome-active footer { margin-top: 0; padding: 32px 0 10px; font-size: 0.65rem; font-weight: 700; }
+
         .center-btn-wrapper { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
         .success-icon { width: 80px; height: 80px; background: var(--gradient-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px; color: white; box-shadow: 0 10px 20px rgba(52, 199, 89, 0.3); }
         .survey-header-center { text-align: center; margin-bottom: 25px; }
         
         .autofill-indicator { font-size: 0.8rem; color: #34C759; margin-top: 8px; display: none; font-weight: bold; background: rgba(52, 199, 89, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block; }
 
-        .dynamic-form-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 16px; 
-        }
+        .dynamic-form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) {
-            .dynamic-form-grid { 
-                grid-template-columns: 1fr 1fr; 
-                gap: 24px 20px; 
-            }
+            .dynamic-form-grid { grid-template-columns: 1fr 1fr; gap: 24px 20px; }
             .full-width { grid-column: 1 / -1; }
             .half-width { grid-column: span 1; }
             .dynamic-form-grid .form-group { margin-bottom: 0; } 
         }
 
         #marketSelectionContainer { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-        .market-option { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; }
-        .market-option.selected { border-color: #0A84FF; background: rgba(10, 132, 255, 0.1); }
-        .market-option input { width: 18px; height: 18px; accent-color: #0A84FF; }
-        .market-name { font-weight: 800; color: #fff; font-size: 0.95rem; display: block; }
-        .market-meta { font-size: 0.75rem; color: var(--text-muted); display: block; }
+        .market-option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); padding: 16px; border-radius: 12px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: 0.2s; }
+        .market-option:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+        .market-option.selected { border-color: #0A84FF; background: rgba(10, 132, 255, 0.15); box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.3); }
+        .market-option input { width: 18px; height: 18px; accent-color: #0A84FF; margin-top: 2px; flex-shrink: 0; }
+        .market-name { font-weight: 800; color: #fff; font-size: 1.05rem; display: block; margin-bottom: 4px; }
+        .market-meta { font-size: 0.85rem; color: var(--text-muted); display: block; line-height: 1.5; }
 
         .summary-label { font-size: 0.7rem; color: #BF5AF2; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; text-align: center; }
         .summary-value { font-size: 1rem; color: #fff; display: block; margin-bottom: 20px; font-weight: 600; line-height: 1.4; text-align: center; }
@@ -165,6 +194,64 @@
 
         .builder-q-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 16px; margin-bottom: 12px; position: relative;}
         .builder-q-remove { position: absolute; top: 12px; right: 12px; color: #FF3B30; cursor: pointer; font-weight: bold; background: none; border: none; font-size: 1.2rem; }
+
+        /* WIZARD SPECIFIC STYLES */
+        .form-step { display: none; opacity: 0; transform: translateY(10px); transition: 0.3s ease; }
+        .form-step.active { display: block; opacity: 1; transform: translateY(0); animation: fadeUp 0.4s ease forwards; }
+        
+        .wizard-nav { display: flex; justify-content: center; gap: 15px; margin-top: 30px; width: 100%; }
+        .wizard-nav .btn { flex: 0 1 auto; width: auto; min-width: 140px; padding: 14px 24px; font-size: 1.05rem; }
+        @media (max-width: 380px) { .wizard-nav .btn { min-width: 120px; padding: 14px 16px; font-size: 1rem; } }
+        
+        #wizardProgress { text-align: center; margin-bottom: 24px; color: #BF5AF2; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; display: none; }
+        .progress-dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+        .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: 0.3s; }
+        .progress-dot.active { background: #BF5AF2; transform: scale(1.2); }
+
+        /* --- EXCLUSIVE WELCOME UI STYLES --- */
+        .arena-tag {
+            display: inline-flex; align-items: center; padding: 6px 16px; border-radius: 100px; 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #ffffff; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; 
+            letter-spacing: 0.05em; margin-bottom: 30px;
+        }
+        
+        .glass-card-inner {
+            border-radius: var(--radius-card); 
+            padding: 32px 24px;
+            text-align: center; margin: 0 auto; width: 100%; max-width: 420px;
+        }
+
+        .big-action-btn {
+            background: var(--gradient-accent); color: white;
+            border: none; padding: 20px; width: 100%; border-radius: 100px;
+            font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 15px rgba(10, 132, 255, 0.2);
+            touch-action: manipulation;
+        }
+        .big-action-btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(10, 132, 255, 0.4); }
+        .big-action-btn:active { transform: scale(0.97); }
+        .big-action-btn:disabled { opacity: 0.3; background: rgba(255,255,255,0.1); box-shadow: none; cursor: not-allowed; animation: none; color: #777; border: 1px solid rgba(255,255,255,0.05); }
+
+        .neon-input {
+            width: 100%; 
+            font-family: inherit;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-btn); padding: 18px;
+            color: white; font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;
+            outline: none; transition: 0.3s; text-align: center;
+        }
+        .neon-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 700; 
+            letter-spacing: 1px;
+        }
+        .neon-input:focus { 
+            border-color: #0A84FF; 
+            background: rgba(255,255,255,0.08); 
+            box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -172,36 +259,70 @@
 <div id="bg-container"></div>
 <div id="bg-overlay"></div>
 
-<div class="app-container">
-    <div class="hero-banner">
-        <img id="appHeaderImg" src="https://i.imgur.com/HJTTEzA.png" alt="Student Market">
+<div class="app-container welcome-active" id="mainAppContainer">
+    <div class="hero-banner" id="heroBanner" style="display:none;">
+        <img id="appHeaderImg" src="https://lh3.googleusercontent.com/d/177iu9igWGiUkD8vdJhZn80PXgLa6hM3c" alt="Student Market">
     </div>
 
-    <!-- APPLICATION FORM VIEW -->
+    <!-- APPLICATION FORM VIEW (WIZARD) -->
     <div id="applicationView" class="view active">
-        <div class="frosted survey-card">
+        <div class="frosted survey-card welcome-mode" id="mainSurveyCard">
             
-            <div class="survey-header-center">
-                <h3 id="appTitle" style="margin-top:0; font-size: 1.8rem; letter-spacing: -0.02em;">Student Market Vendor Application</h3>
-                <div id="appDesc" style="color: var(--text-muted); margin: 12px auto; line-height: 1.5; font-size: 0.9rem; max-width: 95%;">
-                    Loading available markets...
+            <div id="wizardProgress">
+                Step <span id="currentStepNum">1</span> of <span id="totalStepNum">X</span>
+                <div class="progress-dots" id="progressDotsContainer"></div>
+            </div>
+
+            <form id="multiPageForm" onsubmit="return false;">
+                
+                <!-- STEP 0: Student ID (Welcome Mode) -->
+                <div class="form-step active" id="step-0">
+                    <div style="text-align: center;">
+                        <div class="arena-tag">
+                            <span style="width: 6px; height: 6px; background: #ffffff; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 8px #ffffff;"></span>
+                            STUDENT MARKET 2026
+                        </div>
+                        <h1 style="margin: 0; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; text-transform: uppercase;">VENDOR<br>APPLICATION</h1>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px; margin-bottom: 35px; font-weight: 600;">Please enter your Student ID to begin the application.</p>
+                    </div>
+                    
+                    <div class="glass-card-inner">
+                        <div id="studentIdContainer">
+                            <!-- Injected by JS to match UI exactly -->
+                        </div>
+                        <button id="step0-next-btn" class="big-action-btn" onclick="nextPrev(1)" disabled>Start Application</button>
+                    </div>
                 </div>
-                <span style="font-size: 0.7rem; color: #FF3B30; font-weight: 700; text-transform: uppercase;">* Indicates required question</span>
-            </div>
 
-            <div class="form-group full-width" style="margin-bottom:15px;">
-                <label class="form-label">Which Market are you applying for?<span class="required-mark">*</span></label>
-                <div id="marketSelectionContainer"></div>
-            </div>
+                <!-- STEP 1: Market Selection -->
+                <div class="form-step" id="step-1">
+                    <div class="survey-header-center">
+                        <h3 id="appTitle" style="margin-top:0; font-size: 1.8rem; letter-spacing: -0.02em;">Select Market</h3>
+                        <div id="appDesc" style="color: var(--text-muted); margin: 12px auto; line-height: 1.5; font-size: 0.9rem; max-width: 95%;">
+                            Loading available markets...
+                        </div>
+                        <span style="font-size: 0.7rem; color: #FF3B30; font-weight: 700; text-transform: uppercase;">* Indicates required question</span>
+                    </div>
 
-            <div id="dynamicFormContainer" class="dynamic-form-grid"></div>
+                    <div class="form-group full-width" style="margin-bottom:15px;">
+                        <label class="form-label">Which Market are you applying for?<span class="required-mark">*</span></label>
+                        <div id="marketSelectionContainer"></div>
+                    </div>
+                </div>
 
-            <div class="center-btn-wrapper" style="margin-top: 30px;">
-                <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">
-                    <span id="submitBtnText">Submit Application</span>
-                    <div class="loader" id="submitLoader"></div>
-                </button>
-            </div>
+                <!-- DYNAMIC STEPS (Generated from Config) -->
+                <div id="dynamicStepsContainer"></div>
+
+                <!-- WIZARD NAVIGATION -->
+                <div class="wizard-nav" id="wizardNavContainer" style="display:none;">
+                    <button class="btn btn-ghost" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Previous</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()" style="display:none;">
+                        <span id="submitBtnText">Submit Application</span>
+                        <div class="loader" id="submitLoader"></div>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -235,11 +356,16 @@
             <h2 style="margin-top:0; font-size: 1.8rem;">Form Builder Admin</h2>
             <div class="section-header">Global Branding</div>
             <div class="form-group"><label class="form-label">Header Image URL</label><input type="text" id="adminHeaderUrl" class="control-item"></div>
-            <div class="section-header" style="margin-top:30px;">Form Questions</div>
+            
+            <div class="section-header" style="margin-top:30px;">
+                Form Pages & Questions
+                <span style="font-size: 0.7rem; color: #fff; opacity: 0.5; font-weight: normal; margin-left: 10px; text-transform: none;">(Section Headers act as page breaks)</span>
+            </div>
+            
             <div id="adminQuestionsList"></div>
             <div style="text-align: center; margin-bottom: 20px;">
                 <button class="btn btn-ghost" style="padding: 10px 20px; font-size: 0.85rem;" onclick="addCustomQuestion('text')">+ Add Question</button>
-                <button class="btn btn-ghost" style="padding: 10px 20px; font-size: 0.85rem;" onclick="addCustomQuestion('section_header')">+ Add Header</button>
+                <button class="btn btn-ghost" style="padding: 10px 20px; font-size: 0.85rem;" onclick="addCustomQuestion('section_header')">+ Add Header / Page Break</button>
             </div>
             <div class="center-btn-wrapper" style="margin-top: 40px; display:flex; gap: 15px;">
                 <button class="btn btn-ghost" onclick="switchView('application')">Exit</button>
@@ -250,7 +376,7 @@
 
     <footer>
         © 2026 Canyon Activities Board <br>
-        <button class="btn btn-ghost" style="font-size:0.65rem; opacity:0.3; padding: 4px 8px; border:none; min-width:auto;" onclick="showAdminGate()">Admin Access</button>
+        <button class="btn btn-ghost" style="font-size:0.65rem; opacity:0.3; padding: 4px 8px; border:none; min-width:auto; margin-top:8px;" onclick="showAdminGate()">Admin Access</button>
     </footer>
 </div>
 
@@ -271,10 +397,12 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allEventsData = [];
+    let currentTab = 0;
+    let isNavigating = false;
 
     const defaultQuestions = [
         { id: 'section_personal', type: 'section_header', label: 'Personal Information', width: 'full', isCore: true },
-        { id: 'student_id', type: 'number', label: 'Student ID Number', hint: 'Type your ID and tap away to auto-fill your info if you\'ve applied before!', required: true, width: 'full', isCore: true },
+        { id: 'student_id', type: 'number', label: 'Student ID Number', hint: 'Type your ID and tap Next to auto-fill your info!', required: true, width: 'full', isCore: true },
         { id: 'full_name_combined', type: 'text', label: 'First and Last Name', hint: '', required: true, width: 'full', isCore: false },
         { id: 'preferred_email', type: 'email', label: 'Preferred Email', hint: 'Vendor confirmation emails will be sent to your preferred email! Please double check that your email is correct and not misspelled in any way! If it is, you won\'t recieve a confirmation email!', required: true, width: 'full', isCore: true },
         { id: 'gcu_email', type: 'email', label: 'GCU Email', hint: '', required: true, width: 'full', isCore: true },
@@ -289,7 +417,7 @@
         { id: 'description', type: 'textarea', label: 'Vendor/Project Description', hint: '', required: true, width: 'full', isCore: true },
         { id: 'link', type: 'text', label: 'Social Media Handle or Website (Showcasing Your Products)', hint: 'This is not your personal social media account, but rather one that displays the business you\'re running and the items you intend to sell. Note: if your business doesn\'t have a social media account or website, you may include the link to a Google Doc with pictures. Important: make sure the document is public and visible!', required: true, width: 'full', isCore: true },
         
-        { id: 'section_logistics', type: 'section_header', label: 'ELECTRICITY VENDORS', width: 'full', isCore: true },
+        { id: 'section_logistics', type: 'section_header', label: 'Electricity Vendors', width: 'full', isCore: true },
         { id: 'needs_power', type: 'dropdown', label: 'Do you need to be by an outlet or have access to a power source to run your table?', hint: '', options: 'Yes, No', required: true, width: 'full', isCore: true },
         
         { id: 'section_agreements', type: 'section_header', label: 'Check the boxes to acknowledge', width: 'full', isCore: false },
@@ -298,15 +426,23 @@
         { id: 'agree_safety', type: 'checkbox_single', label: 'Safety Acknowledgment', hint: 'I acknowledge that if I as a vendor cannot maintain a safe, friendly and respectful environment, CAB will be obligated to shut down the vendors booth for safety measures.', required: true, width: 'full', isCore: false },
         { id: 'agree_terms', type: 'checkbox_single', label: 'Terms Acknowledgment', hint: 'By applying for student market you acknowledge our terms and hereby consent to our disclaimer and agree to its terms.', required: true, width: 'full', isCore: false },
         { id: 'agree_media', type: 'checkbox_single', label: 'Media Acknowledgment', hint: 'I acknowledge and accept that GCU Student Engagement and CAB Marketing may be utilizing photography and videography at this event that may include myself or my products.', required: true, width: 'full', isCore: false },
-        
         { id: 'additional_comments', type: 'textarea', label: 'Additional Comments, Requests, or Anything You May Need From CAB to Run Your Table Smoothly', hint: 'For any additional questions or concerns, please email lopetownmarket@gmail.com. Thank you for your time!', required: false, width: 'full', isCore: true }
     ];
 
-    let formConfig = { headerUrl: "https://i.imgur.com/HJTTEzA.png", questions: [] };
+    let formConfig = { headerUrl: "https://lh3.googleusercontent.com/d/177iu9igWGiUkD8vdJhZn80PXgLa6hM3c", questions: [] };
 
     window.onload = async () => {
         await loadEvents();
         await loadConfig();
+        
+        // Setup Step 0 specific input validation for the custom big button
+        document.getElementById('studentIdContainer').addEventListener('input', () => {
+            const idInput = document.getElementById('form_student_id');
+            const step0Btn = document.getElementById('step0-next-btn');
+            if (idInput && step0Btn) {
+                step0Btn.disabled = idInput.value.trim().length < 3;
+            }
+        });
     };
 
     async function loadEvents() {
@@ -324,19 +460,33 @@
             });
             if (openMarkets.length === 0) {
                 container.innerHTML = '<div style="color:#FF3B30">No active application windows.</div>';
-                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
                 document.getElementById('appDesc').innerHTML = "There are currently no active application windows. Please check back later!";
             } else {
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('appDesc').innerHTML = "Select one or more markets below to apply. Details will update based on your selection.";
-                container.innerHTML = openMarkets.map(e => `
+                document.getElementById('nextBtn').disabled = false;
+                document.getElementById('appDesc').innerHTML = "Select one or more markets below to apply. <strong>(You may select multiple)</strong>";
+                
+                container.innerHTML = openMarkets.map(e => {
+                    const d = new Date(e.market_date + 'T12:00:00');
+                    const formattedDate = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+                    const formattedClose = new Date(e.app_close).toLocaleString();
+                    
+                    return `
                     <label class="market-option" id="label_market_${e.id}">
                         <input type="checkbox" name="marketChoice" value="${e.id}" onchange="updateMarketSelectionUI()">
                         <div class="market-info-text">
                             <span class="market-name">${e.name}</span>
-                            <span class="market-meta">${e.location} | ${new Date(e.market_date + 'T12:00:00').toLocaleDateString()}</span>
+                            <span class="market-meta">
+                                <strong>Date of Market:</strong> ${formattedDate}<br>
+                                <strong>Time:</strong> ${e.market_time || '6:30-9:30pm'}<br>
+                                <strong>Location:</strong> ${e.location}<br>
+                                <span style="color: #FF3B30; font-size: 0.75rem; display: inline-block; margin-top: 4px;">
+                                    This application will close on ${formattedClose}
+                                </span>
+                            </span>
                         </div>
-                    </label>`).join('');
+                    </label>`;
+                }).join('');
             }
         } catch (e) { console.error(e); }
     }
@@ -348,26 +498,16 @@
             const label = document.getElementById(`label_market_${cb.value}`);
             cb.checked ? label.classList.add('selected') : label.classList.remove('selected');
         });
-        if (checkboxes.length === 0) {
-            document.getElementById('appDesc').innerHTML = "Select markets to view details.";
-            if (availLabel) availLabel.innerHTML = 'Will you be available for the duration of the market?';
-            return;
-        }
-        let selected = Array.from(checkboxes).map(cb => allEventsData.find(ev => ev.id === cb.value));
-        let desc = "";
-        let availStr = "available for the duration of the market?";
         
-        if(selected.length === 1) {
-            const e = selected[0];
-            const d = new Date(e.market_date + 'T12:00:00');
-            desc = `Hello! Thank you for your interest in applying to a CAB student Market for the 2025-2026 school year! CAB Applications for the ${e.name}.<br><br><strong>Date of Market:</strong> ${d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})} of ${d.getFullYear()}<br><strong>Time:</strong> ${e.market_time || '6:30-9:00pm'}<br><strong>Location:</strong> ${e.location}<br><br>This application will close on ${new Date(e.app_close).toLocaleString()}`;
-            availStr = `Will you be available from ${e.market_time || '6:30 PM to 9:00 PM'} on ${d.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}?`;
-        } else {
-            desc = `You are applying for <strong>${selected.length} markets</strong>. Please confirm your availability for all dates selected below.`;
-            availStr = `Will you be available for the full duration of ALL selected markets?`;
+        if (availLabel) {
+            if (checkboxes.length === 0) {
+                availLabel.innerText = 'WILL YOU BE AVAILABLE FOR THE DURATION OF THE MARKET?';
+            } else if (checkboxes.length === 1) {
+                availLabel.innerText = 'WILL YOU BE AVAILABLE FOR THE FULL DURATION OF THE SELECTED MARKET?';
+            } else {
+                availLabel.innerText = 'WILL YOU BE AVAILABLE FOR THE FULL DURATION OF ALL SELECTED MARKETS?';
+            }
         }
-        document.getElementById('appDesc').innerHTML = desc;
-        if (availLabel) availLabel.innerText = availStr.toUpperCase();
     }
 
     async function loadConfig() {
@@ -376,6 +516,12 @@
             if (data?.value) {
                 let p = JSON.parse(data.value);
                 formConfig.headerUrl = p.headerUrl || formConfig.headerUrl;
+                
+                // Force update to new image if old config was cached in Supabase
+                if (formConfig.headerUrl.includes("imgur.com") || formConfig.headerUrl.includes("export=view")) {
+                    formConfig.headerUrl = "https://lh3.googleusercontent.com/d/177iu9igWGiUkD8vdJhZn80PXgLa6hM3c";
+                }
+                
                 formConfig.questions = p.questions || JSON.parse(JSON.stringify(defaultQuestions));
             } else {
                 formConfig.questions = JSON.parse(JSON.stringify(defaultQuestions));
@@ -384,34 +530,250 @@
         } catch (e) { formConfig.questions = JSON.parse(JSON.stringify(defaultQuestions)); renderPublicForm(); }
     }
 
+    function generateFieldHtml(q) {
+        let inputHtml = '';
+        let common = `id="form_${q.id}" class="control-item"`;
+        
+        if (q.type === 'textarea') inputHtml = `<textarea ${common}></textarea>`;
+        else if (q.type === 'dropdown') {
+            const opts = (q.options || '').split(',').map(o => `<option value="${o.trim()}">${o.trim()}</option>`).join('');
+            let trigger = q.id==='food_license' ? 'onchange="toggleFoodLicense()"' : (q.id==='needs_power' ? 'onchange="togglePowerAgreement()"' : '');
+            inputHtml = `<select ${common} ${trigger}><option value="">Select...</option>${opts}</select>`;
+        } else if (q.type === 'checkbox_single') {
+            inputHtml = `<label class="custom-checkbox"><input type="checkbox" id="form_${q.id}"><span>${q.hint || q.label}</span></label>`;
+        } else {
+            let placeholderAttr = q.id === 'student_id' ? 'placeholder="e.g. 1234567"' : '';
+            inputHtml = `<input type="${q.type}" ${common} ${placeholderAttr} autocomplete="off" />`;
+        }
+        
+        let hintHtml = q.hint && q.type !== 'checkbox_single' ? `<span class="form-hint">${q.hint}</span>` : '';
+        let lbl = `<label class="form-label" id="lbl-form_${q.id}">${q.label}${q.required?'<span class="required-mark">*</span>':''}${hintHtml}</label>`;
+        
+        let htmlString = `<div class="form-group ${q.width === 'half' ? 'half-width' : 'full-width'}">${lbl}${inputHtml}</div>`;
+
+        if (q.id === 'food_license') htmlString += `<div id="foodLicenseUploadSection" class="conditional-section full-width"><label class="form-label">Upload AZ food handlers license!<span class="required-mark">*</span></label><input type="hidden" id="formFoodLicenseLinkHidden"><div id="existingLicenseLink"></div><input type="file" id="formFoodLicenseFile" class="control-item" accept="image/*" /></div>`;
+        if (q.id === 'needs_power') htmlString += `<div id="powerAgreementSection" class="conditional-section full-width"><label class="form-label" style="color:#FFD60A">ELECTRICITY VENDORS:<span class="required-mark">*</span></label><p style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;line-height:1.4;">Due to high demand, electricity is available on a first-come, first-served basis. We do not provide extension cords. Portable power is STRONGLY encouraged.</p><label class="custom-checkbox"><input type="checkbox" id="powerAgreementCheck"><span>I acknowledge that I have read this statement</span></label></div>`;
+        
+        return htmlString;
+    }
+
     function renderPublicForm() {
         document.getElementById('appHeaderImg').src = formConfig.headerUrl;
-        const container = document.getElementById('dynamicFormContainer');
-        container.innerHTML = '';
-        formConfig.questions.forEach((q) => {
-            if (q.type === 'section_header') {
-                container.innerHTML += `<div class="full-width"><div class="section-header">${q.label}</div></div>`;
-                return;
-            }
-            let inputHtml = '';
-            let common = `id="form_${q.id}" class="control-item"`;
-            if (q.type === 'textarea') inputHtml = `<textarea ${common}></textarea>`;
-            else if (q.type === 'dropdown') {
-                const opts = (q.options || '').split(',').map(o => `<option value="${o.trim()}">${o.trim()}</option>`).join('');
-                let trigger = q.id==='food_license' ? 'onchange="toggleFoodLicense()"' : (q.id==='needs_power' ? 'onchange="togglePowerAgreement()"' : '');
-                inputHtml = `<select ${common} ${trigger}><option value="">Select...</option>${opts}</select>`;
-            } else if (q.type === 'checkbox_single') inputHtml = `<label class="custom-checkbox"><input type="checkbox" id="form_${q.id}"><span>${q.hint || q.label}</span></label>`;
-            else {
-                let blur = q.id === 'student_id' ? 'onblur="checkExistingVendor()"' : '';
-                inputHtml = `<input type="${q.type}" ${common} ${blur} autocomplete="off" />`;
-            }
-            let lbl = `<label class="form-label" id="lbl-form_${q.id}">${q.label}${q.required?'<span class="required-mark">*</span>':''}${q.hint && q.type!=='checkbox_single'?'<span class="form-hint">'+q.hint+'</span>':''}</label>`;
-            let extra = q.id === 'student_id' ? `<div id="autofillNotice" class="autofill-indicator" style="display:none;">✨ Profile auto-filled!</div>` : '';
-            container.innerHTML += `<div class="form-group ${q.width === 'half' ? 'half-width' : 'full-width'}">${lbl}${inputHtml}${extra}</div>`;
 
-            if (q.id === 'food_license') container.innerHTML += `<div id="foodLicenseUploadSection" class="conditional-section full-width"><label class="form-label">Upload AZ food handlers license!<span class="required-mark">*</span></label><input type="hidden" id="formFoodLicenseLinkHidden"><div id="existingLicenseLink"></div><input type="file" id="formFoodLicenseFile" class="control-item" accept="image/*" /></div>`;
-            if (q.id === 'needs_power') container.innerHTML += `<div id="powerAgreementSection" class="conditional-section full-width"><label class="form-label" style="color:#FFD60A">ELECTRICITY VENDORS:<span class="required-mark">*</span></label><p style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;line-height:1.4;">Due to high demand, electricity is available on a first-come, first-served basis. We do not provide extension cords. Portable power is STRONGLY encouraged.</p><label class="custom-checkbox"><input type="checkbox" id="powerAgreementCheck"><span>I acknowledge that I have read this statement</span></label></div>`;
+        const studentIdContainer = document.getElementById('studentIdContainer');
+        studentIdContainer.innerHTML = '';
+        const dynamicStepsContainer = document.getElementById('dynamicStepsContainer');
+        dynamicStepsContainer.innerHTML = '';
+
+        let currentStepDiv = null;
+        let currentGrid = null;
+
+        // Force a student ID question if accidentally removed by admin config
+        let studentIdQ = formConfig.questions.find(q => q.id === 'student_id');
+        if (!studentIdQ) {
+            studentIdQ = { id: 'student_id', type: 'number', label: 'Student ID Number', hint: 'Type your ID and tap Next to auto-fill your info!', required: true, width: 'full', isCore: true };
+        }
+
+        // Render Student ID in Step 0 MANUALLY to EXACTLY match Voting App
+        studentIdContainer.innerHTML = `
+            <div class="input-group" style="margin-bottom: 24px;">
+                <label style="display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 800; margin-bottom: 12px; text-align: center;">Student ID Number</label>
+                <input type="tel" id="form_student_id" class="neon-input" placeholder="Type here..." maxlength="8" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+            </div>
+        `;
+
+        // Render Rest of Form dynamically splitting by Section Headers
+        formConfig.questions.forEach((q) => {
+            if (q.id === 'student_id') return; // Handled explicitly
+
+            if (q.type === 'section_header') {
+                if (currentStepDiv) {
+                    dynamicStepsContainer.appendChild(currentStepDiv);
+                }
+                currentStepDiv = document.createElement('div');
+                currentStepDiv.className = 'form-step';
+                
+                currentStepDiv.innerHTML = `<div class="survey-header-center"><h3 style="margin-top:0; font-size: 1.6rem; color:#BF5AF2; letter-spacing: -0.02em;">${q.label}</h3></div>`;
+
+                currentGrid = document.createElement('div');
+                currentGrid.className = 'dynamic-form-grid';
+                currentStepDiv.appendChild(currentGrid);
+                return; 
+            }
+
+            if (!currentStepDiv) {
+                currentStepDiv = document.createElement('div');
+                currentStepDiv.className = 'form-step';
+                currentGrid = document.createElement('div');
+                currentGrid.className = 'dynamic-form-grid';
+                currentStepDiv.appendChild(currentGrid);
+            }
+
+            currentGrid.innerHTML += generateFieldHtml(q);
         });
+
+        if (currentStepDiv) {
+            dynamicStepsContainer.appendChild(currentStepDiv);
+        }
+
+        // Initialize Wizard
+        currentTab = 0;
+        showTab(currentTab);
+    }
+
+    // --- WIZARD NAVIGATION LOGIC ---
+    function showTab(n) {
+        let x = document.getElementsByClassName("form-step");
+        if(x.length === 0) return;
+        
+        for(let i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+            x[i].classList.remove('active');
+        }
+        
+        x[n].style.display = "block";
+        setTimeout(() => x[n].classList.add('active'), 10);
+
+        const appContainer = document.getElementById('mainAppContainer');
+        const heroBanner = document.getElementById('heroBanner');
+        const mainCard = document.getElementById('mainSurveyCard');
+        const wizardNav = document.getElementById('wizardNavContainer');
+        const progressEl = document.getElementById('wizardProgress');
+
+        // Layout switching based on Welcome Screen vs Regular Form
+        if (n === 0) {
+            appContainer.classList.add('welcome-active');
+            heroBanner.style.display = 'none';
+            wizardNav.style.display = 'none';
+            progressEl.style.display = 'none';
+            mainCard.classList.add('welcome-mode');
+        } else {
+            appContainer.classList.remove('welcome-active');
+            heroBanner.style.display = 'block';
+            wizardNav.style.display = 'flex';
+            mainCard.classList.remove('welcome-mode');
+            
+            if (x.length > 1) {
+                progressEl.style.display = 'block';
+                document.getElementById('currentStepNum').innerText = (n + 1);
+                document.getElementById('totalStepNum').innerText = x.length;
+                
+                // Build dots
+                let dotsHtml = '';
+                for(let i = 0; i < x.length; i++) {
+                    dotsHtml += `<div class="progress-dot ${i === n ? 'active' : ''}"></div>`;
+                }
+                document.getElementById('progressDotsContainer').innerHTML = dotsHtml;
+            }
+        }
+
+        // Standard Button Checks
+        if (n === (x.length - 1)) {
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("submitBtn").style.display = "inline-flex";
+        } else {
+            document.getElementById("nextBtn").style.display = "inline-flex";
+            document.getElementById("submitBtn").style.display = "none";
+        }
+
+        if (n > 0) {
+            document.getElementById("prevBtn").style.display = "inline-flex";
+        }
+    }
+
+    async function nextPrev(n) {
+        if (isNavigating) return;
+        isNavigating = true;
+
+        let x = document.getElementsByClassName("form-step");
+        
+        // Validation moving forward
+        if (n === 1 && !validateForm(currentTab)) {
+            isNavigating = false;
+            return;
+        }
+
+        // Step 0 -> Step 1 : Auto-fill Check
+        if (currentTab === 0 && n === 1) {
+            let step0Btn = document.getElementById('step0-next-btn');
+            let origText = step0Btn.innerHTML;
+            step0Btn.innerHTML = 'Verifying...';
+            
+            await checkExistingVendor();
+            
+            step0Btn.innerHTML = origText;
+        }
+
+        x[currentTab].style.display = "none";
+        x[currentTab].classList.remove('active');
+        currentTab = currentTab + n;
+        showTab(currentTab);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        isNavigating = false;
+    }
+
+    function validateForm(tabIndex) {
+        let valid = true;
+        let x = document.getElementsByClassName("form-step")[tabIndex];
+
+        // Specific Validation: Market Selection (Step 1)
+        if (x.id === 'step-1') {
+            const selected = document.querySelectorAll('input[name="marketChoice"]:checked');
+            if (selected.length === 0) {
+                showToast("Please select at least one market to apply to.", true);
+                return false;
+            }
+            return true;
+        }
+
+        // General Input Validation
+        let inputs = x.querySelectorAll('input, select, textarea');
+        for (let i = 0; i < inputs.length; i++) {
+            let input = inputs[i];
+            
+            // Ignore hidden conditional sections
+            if (input.closest('.conditional-section') && input.closest('.conditional-section').style.display === 'none') {
+                continue;
+            }
+
+            let idMatch = input.id.match(/^form_(.+)$/);
+            if (idMatch) {
+                let fieldId = idMatch[1];
+                let q = formConfig.questions.find(q => q.id === fieldId);
+
+                if (q && q.required) {
+                    if (q.type === 'checkbox_single') {
+                        if (!input.checked) {
+                            showToast(`Please agree to: ${q.label}`, true);
+                            return false;
+                        }
+                    } else if (input.value.trim() === "") {
+                        showToast(`Please answer: ${q.label}`, true);
+                        input.focus();
+                        return false;
+                    }
+                }
+            }
+
+            // Specific File Upload Validations
+            if (input.id === 'formFoodLicenseFile') {
+                 const needsLicense = document.getElementById('form_food_license')?.value === 'Yes';
+                 const hasExisting = document.getElementById('formFoodLicenseLinkHidden')?.value;
+                 if (needsLicense && !hasExisting && !input.files[0]) {
+                     showToast("Please upload your food handlers license.", true);
+                     return false;
+                 }
+            }
+            if (input.id === 'powerAgreementCheck') {
+                 const needsPower = document.getElementById('form_needs_power')?.value === 'Yes';
+                 if (needsPower && !input.checked) {
+                     showToast("Please acknowledge the power statement.", true);
+                     return false;
+                 }
+            }
+        }
+        return valid;
     }
 
     // --- ADMIN ---
@@ -423,21 +785,95 @@
         const list = document.getElementById('adminQuestionsList');
         list.innerHTML = formConfig.questions.map((q, i) => `
             <div class="builder-q-card">
-                <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><div style="display:flex;gap:5px"><button onclick="moveQ(${i},-1)">↑</button><button onclick="moveQ(${i},1)">↓</button></div><button onclick="deleteQ(${i})">&times;</button></div>
-                <input type="text" class="control-item" value="${q.label}" onchange="updateQ(${i},'label',this.value)">
-                ${q.type!=='section_header' ? `<div style="display:flex;gap:15px;margin-top:8px;"><label><input type="checkbox" ${q.required?'checked':''} onchange="updateQ(${i},'required',this.checked)"> Required</label><label><input type="checkbox" ${q.width==='half'?'checked':''} onchange="updateQ(${i},'width',this.checked?'half':'full')"> Half-Width</label></div>` : ''}
+                <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+                    <div style="display:flex;gap:5px">
+                        <button class="btn btn-ghost" style="padding:4px 8px; min-width:auto; font-size:12px;" onclick="moveQ(${i},-1)">↑</button>
+                        <button class="btn btn-ghost" style="padding:4px 8px; min-width:auto; font-size:12px;" onclick="moveQ(${i},1)">↓</button>
+                    </div>
+                    <button class="builder-q-remove" onclick="deleteQ(${i})">&times;</button>
+                </div>
+
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Question Type</label>
+                <select class="control-item" style="margin-bottom:12px; padding:10px;" onchange="updateQ(${i}, 'type', this.value)">
+                    <option value="text" ${q.type==='text'?'selected':''}>Short Text</option>
+                    <option value="textarea" ${q.type==='textarea'?'selected':''}>Long Text (Paragraph)</option>
+                    <option value="email" ${q.type==='email'?'selected':''}>Email</option>
+                    <option value="tel" ${q.type==='tel'?'selected':''}>Phone</option>
+                    <option value="number" ${q.type==='number'?'selected':''}>Number</option>
+                    <option value="dropdown" ${q.type==='dropdown'?'selected':''}>Dropdown</option>
+                    <option value="checkbox_single" ${q.type==='checkbox_single'?'selected':''}>Agreement Checkbox</option>
+                    <option value="section_header" ${q.type==='section_header'?'selected':''}>Section Header (Page Break)</option>
+                </select>
+
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Label / Title / Question</label>
+                <input type="text" class="control-item" style="margin-bottom:12px; padding:10px;" value="${q.label}" onchange="updateQ(${i},'label',this.value)">
+                
+                ${q.type !== 'section_header' ? `
+                    <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Hint / Helper Text (Optional)</label>
+                    <input type="text" class="control-item" style="margin-bottom:12px; padding:10px;" placeholder="Optional hint..." value="${q.hint || ''}" onchange="updateQ(${i},'hint',this.value)">
+                ` : ''}
+                
+                ${q.type === 'dropdown' ? `
+                    <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Dropdown Options (Comma separated)</label>
+                    <input type="text" class="control-item" style="margin-bottom:12px; padding:10px;" placeholder="Option 1, Option 2" value="${q.options || ''}" onchange="updateQ(${i},'options',this.value)">
+                ` : ''}
+                
+                ${q.type !== 'section_header' ? `
+                    <div style="display:flex;gap:15px;margin-top:8px;">
+                        <label class="custom-checkbox" style="padding:8px; margin:0;"><input type="checkbox" ${q.required?'checked':''} onchange="updateQ(${i},'required',this.checked)"><span>Required</span></label>
+                        <label class="custom-checkbox" style="padding:8px; margin:0;"><input type="checkbox" ${q.width==='half'?'checked':''} onchange="updateQ(${i},'width',this.checked?'half':'full')"><span>Half-Width</span></label>
+                    </div>
+                ` : ''}
             </div>`).join('');
     }
     function addCustomQuestion(t) { formConfig.questions.push({ id: 'q_'+Date.now(), type: t==='section_header'?'section_header':'text', label: 'New Item', width: 'full', required: false, isCore: false }); renderAdminQuestionsList(); }
     function deleteQ(i) { formConfig.questions.splice(i, 1); renderAdminQuestionsList(); }
     function moveQ(i, d) { let n=i+d; if(n<0||n>=formConfig.questions.length)return; [formConfig.questions[i],formConfig.questions[n]]=[formConfig.questions[n],formConfig.questions[i]]; renderAdminQuestionsList(); }
-    function updateQ(i,k,v) { formConfig.questions[i][k]=v; }
+    function updateQ(i,k,v) { 
+        formConfig.questions[i][k]=v; 
+        if (k === 'type') renderAdminQuestionsList();
+    }
     async function saveAdminConfig() { try { await _supabase.from('secrets').upsert([{ name: 'MARKET_FORM_CONFIG_V8', value: JSON.stringify(formConfig) }], { onConflict: 'name' }); showToast("Saved"); renderPublicForm(); switchView('application'); } catch(e){ showToast("Error",true); } }
 
-    // --- SUBMISSION ---
+    // --- AUTO-FILL & SUBMISSION ---
+    async function checkExistingVendor() {
+        const id = document.getElementById('form_student_id').value.trim();
+        if(id.length < 4) return false;
+        
+        try {
+            const { data } = await _supabase.from('vendors').select('*').eq('student_id', id).order('created_at', { ascending: false }).limit(1);
+            if(data && data[0]) {
+                const v = data[0];
+                formConfig.questions.forEach(q => { 
+                    const el = document.getElementById('form_'+q.id); 
+                    if(el && q.id !== 'additional_comments' && q.id !== 'student_id') {
+                        if (q.id === 'full_name_combined') el.value = (v.first_name + ' ' + v.last_name).trim();
+                        else if (v[q.id]) el.value = v[q.id];
+                    }
+                });
+
+                if (v.food_license_link) {
+                    document.getElementById('formFoodLicenseLinkHidden').value = v.food_license_link;
+                    document.getElementById('existingLicenseLink').innerHTML = `
+                        <div style="color:#34C759; font-size:0.85rem; margin:10px 0; font-weight:800; background:rgba(52,199,89,0.1); padding:10px; border-radius:10px; border:1px solid rgba(52,199,89,0.2);">
+                            ✅ Existing food handlers license found on file. <br>
+                            <span style="font-size:0.7rem; font-weight:400; color:rgba(255,255,255,0.6);">You do not need to re-upload unless your license has expired.</span>
+                        </div>`;
+                }
+
+                toggleFoodLicense(); togglePowerAgreement();
+                showToast("✨ Profile auto-filled from previous app!", false);
+                return true;
+            }
+        } catch(e) { console.error("Autofill Error:", e); }
+        return false;
+    }
+
     async function submitApplication() {
+        // Validate final tab explicitly just in case
+        if(!validateForm(currentTab)) return;
+
         const selectedMarketIds = Array.from(document.querySelectorAll('input[name="marketChoice"]:checked')).map(cb => cb.value);
-        if(selectedMarketIds.length === 0) return showToast("Select at least one market", true);
         const btn = document.getElementById('submitBtn');
         
         // Base Payload
@@ -449,12 +885,6 @@
             if(!el) continue;
             const val = q.type==='checkbox_single' ? (el.checked?'Yes':'No') : el.value.trim();
             
-            if(q.required) {
-                if(val === '' || (q.type === 'checkbox_single' && val === 'No')) {
-                    return showToast(`Please answer: ${q.label}`, true);
-                }
-            }
-
             if(q.id === 'full_name_combined') {
                 const parts = val.split(' ');
                 basePayload.first_name = parts[0] || val;
@@ -471,7 +901,6 @@
         if (basePayload.food_license==='Yes') {
              const file = document.getElementById('formFoodLicenseFile').files[0];
              const existing = document.getElementById('formFoodLicenseLinkHidden').value;
-             if(!file && !existing) return showToast("Upload license photo", true);
              
              if(file) {
                  const comp = await compressImage(file);
@@ -482,7 +911,6 @@
                  basePayload.food_license_link = existing;
              }
         }
-        if (basePayload.needs_power==='Yes' && !document.getElementById('powerAgreementCheck').checked) return showToast("Agree to power terms", true);
         
         const actualComments = document.getElementById('form_additional_comments')?.value.trim() || '';
         basePayload.additional_comments = actualComments;
@@ -493,7 +921,7 @@
             const { error } = await _supabase.from('vendors').insert(inserts);
             if(error) throw error;
 
-            // Simple Centered Summary View
+            // Summary View
             const selectedMarketNames = selectedMarketIds.map(id => allEventsData.find(ev => ev.id === id)?.name || 'Unknown Market');
             document.getElementById('successGreeting').innerText = `Thank you, ${basePayload.first_name}!`;
             
@@ -521,41 +949,17 @@
             `;
             document.getElementById('summaryContent').innerHTML = summaryHtml;
 
-            switchView('success'); confetti();
+            switchView('success');
+            // Confetti
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0A84FF', '#BF5AF2', '#ffffff'] });
+            }
         } catch(e) { console.error(e); showToast("Submission failed", true); }
         finally { btn.disabled = false; }
     }
 
     function toggleFoodLicense() { let s = document.getElementById('foodLicenseUploadSection'); if(s) s.style.display = document.getElementById('form_food_license').value==='Yes'?'block':'none'; }
     function togglePowerAgreement() { let s = document.getElementById('powerAgreementSection'); if(s) s.style.display = document.getElementById('form_needs_power').value==='Yes'?'block':'none'; }
-    
-    async function checkExistingVendor() {
-        const id = document.getElementById('form_student_id').value.trim();
-        if(id.length < 4) return;
-        const { data } = await _supabase.from('vendors').select('*').eq('student_id', id).order('created_at', { ascending: false }).limit(1);
-        if(data && data[0]) {
-            const v = data[0];
-            formConfig.questions.forEach(q => { 
-                const el = document.getElementById('form_'+q.id); 
-                if(el && q.id !== 'additional_comments') {
-                    if (q.id === 'full_name_combined') el.value = (v.first_name + ' ' + v.last_name).trim();
-                    else if (v[q.id]) el.value = v[q.id];
-                }
-            });
-
-            if (v.food_license_link) {
-                document.getElementById('formFoodLicenseLinkHidden').value = v.food_license_link;
-                document.getElementById('existingLicenseLink').innerHTML = `
-                    <div style="color:#34C759; font-size:0.85rem; margin:10px 0; font-weight:800; background:rgba(52,199,89,0.1); padding:10px; border-radius:10px; border:1px solid rgba(52,199,89,0.2);">
-                        ✅ Existing food handlers license found on file. <br>
-                        <span style="font-size:0.7rem; font-weight:400; color:rgba(255,255,255,0.6);">You do not need to re-upload unless your license has expired.</span>
-                    </div>`;
-            }
-
-            toggleFoodLicense(); togglePowerAgreement();
-            document.getElementById('autofillNotice').style.display = 'inline-block';
-        }
-    }
     function switchView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v + 'View').classList.add('active'); window.scrollTo(0,0); }
     function showToast(m, e) { const t = document.getElementById('toast'); t.innerText = m; t.style.background = e ? 'var(--gradient-fire)' : 'var(--gradient-success)'; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 4000); }
     async function compressImage(file) {
