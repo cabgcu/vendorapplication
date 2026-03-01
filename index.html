@@ -503,6 +503,7 @@
     let currentTab = 0;
     let isNavigating = false;
     let isAppClosed = false;
+    let marketConfigV3 = {}; // Global store for per-market settings
 
     const defaultQuestions = [
         { id: 'section_personal', type: 'section_header', label: 'Personal Information', width: 'full', isCore: true },
@@ -587,15 +588,23 @@
             
             allEventsData = data;
             const now = new Date();
-            let openMarkets = data;
             
-            if (formConfig.forceStatus === 'closed') {
-                openMarkets = [];
-            } else if (formConfig.forceStatus === 'auto') {
-                openMarkets = data.filter(e => {
-                    return (!e.app_open || new Date(e.app_open) <= now) && (!e.app_close || new Date(e.app_close) >= now);
-                });
-            }
+            let openMarkets = data.filter(e => {
+                // Ensure ID checking aligns exactly as string vs string
+                const evConfig = marketConfigV3[String(e.id)] || {};
+                
+                // IGNORE GLOBAL SETTINGS FOR SPECIFIC MARKETS!
+                // Read specific status, default ONLY to auto.
+                const status = evConfig.forceStatus || 'auto';
+                
+                if (status === 'closed') return false;
+                if (status === 'open') return true;
+                
+                // 'auto' mode checks the calendar dates
+                const isPastOpen = !e.app_open || new Date(e.app_open) <= now;
+                const isBeforeClose = !e.app_close || new Date(e.app_close) >= now;
+                return isPastOpen && isBeforeClose;
+            });
 
             if (openMarkets.length === 0) {
                 isAppClosed = true;
@@ -604,7 +613,6 @@
                 isAppClosed = false;
                 document.getElementById('nextBtn').disabled = false;
                 
-                // Sort markets so the one happening chronologically first appears at the top
                 openMarkets.sort((a, b) => new Date(a.market_date) - new Date(b.market_date));
                 
                 const welcomeDesc = document.querySelector('#step-0 p');
@@ -628,9 +636,12 @@
                     lblMarketSelection.innerHTML = 'Which Markets are you applying for? <span style="text-transform:none; font-weight:normal; font-size:0.85rem; color:var(--text-muted); display:block; margin-top:4px;">Select a market to apply (can apply to multiple)</span><span class="required-mark">*</span>';
                 } else {
                     const singleMarket = openMarkets[0];
-                    document.getElementById('appTitle').innerHTML = singleMarket.name || formConfig.eventTitle || "Vendor Application";
+                    const specificConfig = marketConfigV3[String(singleMarket.id)] || {};
                     
-                    let descHtml = singleMarket.description || formConfig.eventDesc || "";
+                    // Pull specific title for this market, or fallback
+                    document.getElementById('appTitle').innerHTML = specificConfig.title || singleMarket.name || formConfig.eventTitle || "Vendor Application";
+                    
+                    let descHtml = specificConfig.description || singleMarket.description || formConfig.eventDesc || "";
                     if (descHtml) {
                         document.getElementById('appDesc').innerHTML = descHtml;
                         document.getElementById('appDesc').style.display = 'block';
@@ -644,7 +655,7 @@
                 container.innerHTML = openMarkets.map(e => {
                     const d = new Date(e.market_date + 'T12:00:00');
                     const formattedDate = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
-                    const formattedClose = new Date(e.app_close).toLocaleString();
+                    const formattedClose = e.app_close ? new Date(e.app_close).toLocaleString() : 'TBD';
                     
                     return `
                     <label class="market-option" id="label_market_${e.id}" for="chk_market_${e.id}">
@@ -704,11 +715,13 @@
 
             const { data: v3Data } = await _supabase.from('secrets').select('value').eq('name', 'MARKET_FORM_CONFIG_V3').maybeSingle();
             if (v3Data?.value) {
-                let p3 = JSON.parse(v3Data.value);
-                formConfig.forceStatus = p3.forceStatus || 'auto';
+                try { marketConfigV3 = JSON.parse(v3Data.value); } catch(e){}
+                
+                // Fallback for older global format
+                formConfig.forceStatus = marketConfigV3.forceStatus || 'auto';
                 if (!v8HasText) {
-                    formConfig.eventTitle = p3.title || null;
-                    formConfig.eventDesc = p3.description || null;
+                    formConfig.eventTitle = marketConfigV3.title || null;
+                    formConfig.eventDesc = marketConfigV3.description || null;
                 }
             } else {
                 formConfig.forceStatus = 'auto';
